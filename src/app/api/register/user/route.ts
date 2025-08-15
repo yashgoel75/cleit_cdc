@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { User } from "../../../../../db/schema";
-import argon2 from "argon2";
 import { register } from "@/instrumentation";
 
 export async function GET(req: NextRequest) {
@@ -38,14 +37,25 @@ export async function GET(req: NextRequest) {
 interface User {
     name: string,
     username: string,
+    enrollmentNumber: number,
     collegeEmail: string,
-    password: string
+    phone: number,
+    department: string,
+    tenthPercentage: number,
+    twelfthPercentage: number,
+    collegeGPA: number,
+    batchStart: number,
+    batchEnd: number,
+    linkedin: string,
+    github: string,
+    leetcode: string,
+    status: string,
 }
 export async function POST(req: NextRequest) {
-    const { name, username, collegeEmail, password } = (await req.json()) as User;
+    const { name, username, enrollmentNumber, collegeEmail, phone, department, tenthPercentage, twelfthPercentage, collegeGPA, batchStart, batchEnd, linkedin, github, leetcode, status } = (await req.json()) as User;
     try {
         await register();
-        if (!name || !username || !collegeEmail || !password) {
+        if (!name || !username || !enrollmentNumber || !collegeEmail || !phone || !department || !tenthPercentage || !twelfthPercentage || !collegeGPA || !batchStart || !batchEnd || !linkedin || !github || !leetcode || !status) {
             console.error("Missing entries");
             return NextResponse.json("Invalid Entry");
         }
@@ -57,14 +67,21 @@ export async function POST(req: NextRequest) {
         const user = await User.create({
             name,
             username,
+            enrollmentNumber,
             collegeEmail,
             personalEmail: "",
-            branch: "",
-            linkedin: "",
-            github: "",
-            leetcode: "",
+            phone,
+            department,
+            tenthPercentage,
+            twelfthPercentage,
+            collegeGPA,
+            batchStart,
+            batchEnd,
+            linkedin,
+            github,
+            leetcode,
             resume: "",
-            status: "Unplaced",
+            status,
             wishlist: [],
             reminders: [],
         });

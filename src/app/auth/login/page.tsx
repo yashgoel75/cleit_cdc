@@ -8,8 +8,6 @@ import Footer from "../footer/page";
 import "./page.css";
 import Link from "next/link";
 import {
-  getAuth,
-  signOut,
   onAuthStateChanged,
   User,
   signInWithEmailAndPassword,
@@ -103,28 +101,6 @@ export default function Login() {
     }
   };
   const [user, setUser] = useState<User | null>(null);
-
-  // async function sendEmailOtp() {
-  //   try {
-  //     const res = await fetch(`/api/register/member?email=${formData.email}`);
-  //     const data = await res.json();
-
-  //     const otpRes = await fetch("/api/otp/send", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email: formData.email }),
-  //     });
-
-  //     const otpData = await otpRes.json();
-  //     if (!otpRes.ok) {
-  //       console.error("OTP error:", otpData.error);
-  //     }
-  //   } catch (error) {
-  //     console.log("Error checking email or sending OTP:", error);
-  //   }
-  // }
 
   useEffect(() => {
     const { email, password } = formData;
