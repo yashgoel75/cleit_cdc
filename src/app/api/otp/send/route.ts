@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
     try {
         const { data } = await resend.emails.send({
-            from: "Cleit <connect@yashgoel.me>",
+            from: "Cleit <auth.cleit.in>",
             to: email,
             subject: "Welcome to Cleit CDC - OTP Verification",
             html: `
