@@ -80,22 +80,6 @@ export default function Header() {
     <div className="flex items-center gap-5">
       <nav className="font-medium text-lg">
         <ul className="flex gap-4">
-          <li
-            className={`hover:underline cursor-pointer ${
-              isLogoutConfirmationMessage ? "hidden" : null
-            }`}
-            onClick={() => router.push("/Account/Events")}
-          >
-            Events
-          </li>
-          <li
-            className={`hover:underline cursor-pointer ${
-              isLogoutConfirmationMessage ? "hidden" : null
-            }`}
-            onClick={() => router.push("/Account/Team")}
-          >
-            Team
-          </li>
         </ul>
       </nav>
       {isLogoutConfirmationMessage ? (
@@ -164,22 +148,10 @@ export default function Header() {
                   Vivekananda Institute of Professional Studies
                 </p>
                 <p
-                  onClick={() => router.push("/Account")}
+                  onClick={() => router.push("/account")}
                   className="font-semibold cursor-pointer"
                 >
                   {displayName}
-                </p>
-                <p
-                  onClick={() => router.push("/Account/Events")}
-                  className="cursor-pointer hover:underline"
-                >
-                  Events
-                </p>
-                <p
-                  onClick={() => router.push("/Account/Team")}
-                  className="cursor-pointer hover:underline"
-                >
-                  Team
                 </p>
                 {isLogoutConfirmationMessage ? (
                   <>
@@ -244,7 +216,7 @@ export default function Header() {
           {user ? (
             <>
               <button
-                onClick={() => router.push("/Account")}
+                onClick={() => router.push("/account")}
                 className={`font-semibold text-lg hover:text-indigo-700 transition hover:cursor-pointer ${
                   isLogoutConfirmationMessage ? "hidden" : null
                 }`}

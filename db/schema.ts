@@ -6,7 +6,7 @@ const user = new Schema({
     username: String,
     collegeEmail: String,
     personalEmail: String,
-    enrollmentNumber: Number,
+    enrollmentNumber: String,
     phone: Number,
     department: String,
     tenthPercentage: Number,

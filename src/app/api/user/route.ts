@@ -25,3 +25,33 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    await register();
+    const body = await req.json();
+    const { email, updates } = body;
+
+    if (!email || !updates) {
+      return NextResponse.json(
+        { error: "Email and updates are required." },
+        { status: 400 }
+      );
+    }
+
+    const updatedUser = await User.findOneAndUpdate(
+      { collegeEmail: email },
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    return NextResponse.json({ user: updatedUser }, { status: 200 });
+  } catch (e) {
+    console.error("Update error:", e);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}

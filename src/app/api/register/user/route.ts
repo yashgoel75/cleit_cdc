@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 interface User {
     name: string,
     username: string,
-    enrollmentNumber: number,
+    enrollmentNumber: string,
     collegeEmail: string,
     phone: number,
     department: string,
