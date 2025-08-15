@@ -95,12 +95,16 @@ export default function Society() {
   const [isGithubUsernameEmpty, setIsGithubUsernameEmpty] = useState(false);
   const [isLeetcodeUsernameEmpty, setIsLeetcodeUsernameEmpty] = useState(false);
   const [isStatusEmpty, setIsStatusEmpty] = useState(false);
+  const [checkingMail, setCheckingMail] = useState(false);
   const [otpSending, setOtpSending] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
 
   const [isBasicDetails, setIsBasicDetails] = useState(true);
   const [isAcademicDetails, setIsAcademicDetails] = useState(false);
   const [isSocialDetails, setIsSocialDetails] = useState(false);
+
+  const [remainingTime, setRemainingTime] = useState(120);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -225,6 +229,7 @@ export default function Society() {
       if (falseEmailFormat) {
         return;
       }
+      setCheckingMail(true);
       const res = await fetch(
         `/api/register/user?email=${formData.collegeEmail}`
       );
@@ -232,9 +237,10 @@ export default function Society() {
 
       if (data.emailExists) {
         setEmailAlreadyTaken(true);
+        setCheckingMail(false);
       } else {
-        setEmailAlreadyTaken(false);
         setOtpSending(true);
+        setEmailAlreadyTaken(false);
         const otpRes = await fetch("/api/otp/send", {
           method: "POST",
           headers: {
@@ -255,9 +261,9 @@ export default function Society() {
       console.log("Error checking email or sending otp:", error);
     }
   }
-
   async function verifyOtp() {
     try {
+      setVerifyingOtp(true);
       const res = await fetch("/api/otp/verify", {
         method: "POST",
         headers: {
@@ -271,6 +277,7 @@ export default function Society() {
 
       const data = await res.json();
 
+      setVerifyingOtp(false);
       if (res.ok && data.verified) {
         setInvalidOtp(false);
         setValidOtp(true);
@@ -364,6 +371,28 @@ export default function Society() {
     setIsSocialDetails(false);
     setIsAcademicDetails(true);
   }
+
+  useEffect(() => {
+    if (!otpSending && !otpSent) {
+      setRemainingTime(120);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setRemainingTime((prev) => {
+        if (prev > 0) {
+          return prev - 1;
+        } else {
+          clearInterval(timer);
+          setOtpSending(false);
+          setOtpSent(false);
+          return 0;
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [otpSent]);
 
   return (
     <>
@@ -638,16 +667,28 @@ export default function Society() {
                     <button
                       type="button"
                       onClick={() => sendEmailOtp()}
-                      disabled={otpSent}
+                      disabled={otpSent || otpSending || checkingMail}
                       className={`bg-indigo-500 outline-none w-[30%] lg:w-[20%] text-white px-1 md:px-2 lg:px-4 py-2 rounded-r-md hover:bg-indigo-700 ${
-                        otpSent || otpSending
+                        otpSent || otpSending || checkingMail
                           ? "hover:cursor-not-allowed opacity-50"
                           : "hover:cursor-pointer"
                       }`}
                     >
-                      {otpSending ? "Sending" : otpSent ? "Sent" : "Send OTP"}
+                      {otpSending
+                        ? "Sending"
+                        : checkingMail
+                        ? "Checking Mail"
+                        : otpSent
+                        ? "Sent"
+                        : "Send OTP"}
                     </button>
                   </div>
+                  {otpSent ? (
+                    <div className="text-sm flex text-[#8C1A10] mt-1">
+                      Didn&apos;t receive OTP? Send again&nbsp;in{" "}
+                      {remainingTime} seconds
+                    </div>
+                  ) : null}
                   {isEmailEmpty ? (
                     <div className="text-sm flex text-[#8C1A10] mt-1">
                       <svg
@@ -707,15 +748,15 @@ export default function Society() {
                     />
                     <button
                       type="button"
-                      disabled={validOtp}
+                      disabled={validOtp || verifyingOtp}
                       onClick={verifyOtp}
                       className={`bg-indigo-500 outline-none w-[30%] lg:w-[20%] text-white px-1 md:px-2 lg:px-4 py-2 rounded-r-md hover:bg-indigo-700 hover:cursor-pointer ${
-                        validOtp
+                        validOtp || verifyingOtp
                           ? "opacity-50 cursor-not-allowed"
                           : "hover:cursor-pointer"
                       }`}
                     >
-                      Verify
+                      {verifyingOtp ? "Verifying" : "Verify"}
                     </button>
                   </div>
                 </div>

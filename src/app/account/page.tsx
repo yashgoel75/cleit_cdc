@@ -57,6 +57,7 @@ export default function Account() {
   const [isUploadingResume, setIsUploadingResume] = useState(false);
   const [usernameExists, setUsernameExists] = useState(false);
   const [UsernameAvailable, setUsernameAvailable] = useState(false);
+  const [usernameChecking, setUsernameChecking] = useState(false);
 
   const router = useRouter();
 
@@ -220,11 +221,12 @@ export default function Account() {
   };
 
   async function checkUsername() {
+    setUsernameChecking(true);
     const res = await fetch(
       `/api/register/user?username=${formData?.username}`
     );
     const data = await res.json();
-
+    setUsernameChecking(false);
     if (data.usernameExists) {
       setUsernameExists(true);
     } else {
@@ -509,9 +511,10 @@ export default function Account() {
                       <button
                         type="button"
                         onClick={() => checkUsername()}
-                        className="px-3 items-center text-center bg-indigo-500 text-white rounded-md hover:cursor-pointer"
+                        disabled={usernameChecking}
+                        className={`px-3 min-w-[95px] items-center text-center bg-indigo-500 text-white rounded-md ${usernameChecking ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"}`}
                       >
-                        Check
+                        {usernameChecking ? "Checking" : "Check"}
                       </button>
                     </div>
                     {usernameExists ? (
