@@ -18,14 +18,43 @@ export async function POST(req: NextRequest) {
             to: email,
             subject: "Welcome to Cleit CDC - OTP Verification",
             html: `
-                <img src="https://res.cloudinary.com/dqwjvwb8z/image/upload/v1753870491/cleit_ay8dhd.png" alt="Cleit Logo" style="width: 150px; height: auto; margin-bottom: 20px;">
-                <h1>Welcome to Cleit!</h1>
-                <p>Thank you for registering with Cleit CDC. Please use this OTP to verify your email:</p>
-                <h2 style="font-size: 24px; font-weight: bold;">${otp}</h2>
-                <p>This OTP is valid for <strong>5 minutes.</strong></p>
-                <p>If you did not request this, please ignore this email.</p>
-                <p>Best regards,<br>Team Cleit CDC</p>
-            `,
+            <div style="background-color: #f4f4f7; padding: 40px; font-family: Arial, sans-serif;">
+                <div style="max-width: 550px; margin: auto; background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    
+                    <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="https://res.cloudinary.com/dqwjvwb8z/image/upload/v1753870491/cleit_ay8dhd.png" 
+                        alt="Cleit Logo" 
+                        style="width: 150px; height: auto;">
+                    </div>
+                    
+                    <h1 style="color: #333; text-align: center;">Welcome to Cleit!</h1>
+                    
+                    <p style="color: #555; font-size: 16px; text-align: left; line-height: 1.5;">
+                    Thank you for registering with Cleit CDC. Please use the OTP below to verify your email:
+                    </p>
+                    
+                    <div style="text-align: center; margin: 30px 0;">
+                    <span style="display: inline-block; background-color: #f0f4ff; color: #3b82f6; font-size: 24px; font-weight: bold; letter-spacing: 4px; padding: 12px 24px; border-radius: 6px;">
+                        ${otp}
+                    </span>
+                    </div>
+                    
+                    <p style="color: #555; font-size: 14px; text-align: left;">
+                    This OTP is valid for <strong>5 minutes</strong>.
+                    </p>
+                    
+                    <p style="color: #999; font-size: 12px; text-align: left; margin-top: 20px;">
+                    If you did not request this, please ignore this email.
+                    </p>
+                    
+                    <p style="color: #333; font-size: 14px; text-align: left; margin-top: 30px;">
+                    Best regards,<br>Team Cleit CDC
+                    </p>
+                    
+                </div>
+            </div>
+`
+            ,
         });
 
         return NextResponse.json(

@@ -231,18 +231,18 @@ export default function Society() {
   }
   async function sendEmailOtp() {
     try {
-      if (falseEmailFormat) {
-        return;
-      }
+      // if (falseEmailFormat) {
+      //   return;
+      // }
       setCheckingMail(true);
       const res = await fetch(
         `/api/register/user?email=${formData.collegeEmail}`
       );
       const data = await res.json();
+      setCheckingMail(false);
 
       if (data.emailExists) {
         setEmailAlreadyTaken(true);
-        setCheckingMail(false);
       } else {
         setOtpSending(true);
         setEmailAlreadyTaken(false);
