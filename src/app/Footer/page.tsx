@@ -38,13 +38,13 @@ export default function Footer() {
             </li>
             <li
               className="hover:cursor-pointer"
-              onClick={() => router.push("/About")}
+              onClick={() => router.push("/about")}
             >
               About Us
             </li>
             <li
               className="hover:cursor-pointer"
-              onClick={() => router.push("/Team")}
+              onClick={() => router.push("/team")}
             >
               Our Team
             </li>
@@ -70,7 +70,7 @@ export default function Footer() {
             </li>
             <li
               className="hover:cursor-pointer"
-              onClick={() => router.push("/Contact")}
+              onClick={() => router.push("/contact")}
             >
               Contact Us
             </li>

@@ -25,20 +25,21 @@ export default function Header() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      if (user?.email) fetchSocietyName(user.email);
+      if (user?.email) fetchUserName(user.email);
     });
     return () => unsubscribe();
   }, []);
 
-  const fetchSocietyName = async (email: string) => {
+  const fetchUserName = async (email: string) => {
     try {
       const response = await fetch(
-        `/api/society/team?email=${encodeURIComponent(email)}`,
+        `/api/user?email=${encodeURIComponent(email)}`
       );
       const data = await response.json();
       if (!response.ok)
-        throw new Error(data.error || "Failed to fetch society name");
-      setDisplayName(data.society.name);
+        throw new Error(data.error || "Failed to fetch user name");
+      setDisplayName(data.user.name);
+      console.log(data.user.name);
     } catch (err) {
       console.error(err);
     }
@@ -80,13 +81,17 @@ export default function Header() {
       <nav className="font-medium text-lg">
         <ul className="flex gap-4">
           <li
-            className={`hover:underline cursor-pointer ${isLogoutConfirmationMessage ? "hidden" : null}`}
+            className={`hover:underline cursor-pointer ${
+              isLogoutConfirmationMessage ? "hidden" : null
+            }`}
             onClick={() => router.push("/Account/Events")}
           >
             Events
           </li>
           <li
-            className={`hover:underline cursor-pointer ${isLogoutConfirmationMessage ? "hidden" : null}`}
+            className={`hover:underline cursor-pointer ${
+              isLogoutConfirmationMessage ? "hidden" : null
+            }`}
             onClick={() => router.push("/Account/Team")}
           >
             Team
@@ -240,7 +245,9 @@ export default function Header() {
             <>
               <button
                 onClick={() => router.push("/Account")}
-                className={`font-semibold text-lg hover:text-indigo-700 transition hover:cursor-pointer ${isLogoutConfirmationMessage ? "hidden" : null}`}
+                className={`font-semibold text-lg hover:text-indigo-700 transition hover:cursor-pointer ${
+                  isLogoutConfirmationMessage ? "hidden" : null
+                }`}
               >
                 {displayName}
               </button>

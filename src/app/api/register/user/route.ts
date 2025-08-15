@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
         const email = searchParams.get("email");
 
         if (email) {
-            const UserEmailExists = await User.findOne({ email });
+            const UserEmailExists = await User.findOne({ collegeEmail: email });
 
             return NextResponse.json({
                 emailExists: !!(UserEmailExists),
