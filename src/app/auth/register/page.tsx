@@ -104,6 +104,8 @@ export default function Society() {
   const [isAcademicDetails, setIsAcademicDetails] = useState(false);
   const [isSocialDetails, setIsSocialDetails] = useState(false);
 
+  const [usernameChecking, setUsernameChecking] = useState(false);
+
   const [remainingTime, setRemainingTime] = useState(120);
 
   const handleChange = (
@@ -208,10 +210,13 @@ export default function Society() {
 
   async function isUsernameAvailable() {
     try {
+      setUsernameChecking(true);
+
       const res = await fetch(
         `/api/register/user?username=${formData.username}`
       );
       const data = await res.json();
+      setUsernameChecking(false);
 
       if (data.usernameExists) {
         setUsernameAvailable(false);
@@ -555,14 +560,18 @@ export default function Society() {
                       onClick={() => {
                         isUsernameAvailable();
                       }}
-                      disabled={falseUsernameFormat}
+                      disabled={falseUsernameFormat || usernameChecking}
                       className={`bg-indigo-500 outline-none w-[30%] lg:w-[20%] text-white px-1 md:px-2 lg:px-4 py-2 rounded-r-md hover:bg-indigo-700 ${
+                        usernameChecking
+                          ? "cursor-not-allowed opacity-50"
+                          : "hover:cursor-pointer"
+                      } ${
                         falseUsernameFormat
                           ? "opacity-50 cursor-not-allowed"
                           : "hover:cursor-pointer"
                       }`}
                     >
-                      Check
+                      {usernameChecking ? "Checking" : "Check"}
                     </button>
                   </div>
                   {isUsernameEmpty ? (
