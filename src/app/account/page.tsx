@@ -55,6 +55,8 @@ export default function Account() {
   const [error, setError] = useState<string | null>(null);
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
   const [isUploadingResume, setIsUploadingResume] = useState(false);
+  const [usernameExists, setUsernameExists] = useState(false);
+  const [UsernameAvailable, setUsernameAvailable] = useState(false);
 
   const router = useRouter();
 
@@ -100,6 +102,10 @@ export default function Account() {
     const { name, value, type } = e.target;
     setFormData((prev) => {
       if (!prev) return null;
+      if (name == "username") {
+        setUsernameAvailable(false);
+        setUsernameExists(false);
+      }
       const isNumeric = [
         "tenthPercentage",
         "twelfthPercentage",
@@ -117,6 +123,7 @@ export default function Account() {
 
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (usernameExists) return;
     if (!currentUser?.email || !formData) return;
     if (falseEndYear) return;
     setIsUpdating(true);
@@ -212,6 +219,18 @@ export default function Account() {
     }
   };
 
+  async function checkUsername() {
+    const res = await fetch(
+      `/api/register/user?username=${formData?.username}`
+    );
+    const data = await res.json();
+
+    if (data.usernameExists) {
+      setUsernameExists(true);
+    } else {
+      setUsernameAvailable(true);
+    }
+  }
   if (loading) {
     return (
       <>
@@ -479,13 +498,32 @@ export default function Account() {
                     <label className="block font-medium mb-1 text-gray-700">
                       Username
                     </label>
-                    <input
-                      type="text"
-                      name="username"
-                      value={formData?.username || ""}
-                      onChange={handleChange}
-                      className="w-full max-w-full border border-gray-300 px-3 py-2 sm:px-4 sm:py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 box-border"
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        name="username"
+                        value={formData?.username || ""}
+                        onChange={handleChange}
+                        className="w-full max-w-full border border-gray-300 px-3 py-2 sm:px-4 sm:py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 box-border"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => checkUsername()}
+                        className="px-3 items-center text-center bg-indigo-500 text-white rounded-md hover:cursor-pointer"
+                      >
+                        Check
+                      </button>
+                    </div>
+                    {usernameExists ? (
+                      <p className="text-sm text-red-500">
+                        Username Already Exists
+                      </p>
+                    ) : null}
+                    {UsernameAvailable ? (
+                      <p className="text-sm text-green-700">
+                        Username Available
+                      </p>
+                    ) : null}
                   </div>
 
                   <div>
@@ -532,13 +570,48 @@ export default function Account() {
                     <label className="block font-medium mb-1 text-gray-700">
                       Department
                     </label>
-                    <input
-                      type="text"
+                    <select
                       name="department"
-                      value={formData?.department || ""}
+                      value={formData.department}
                       onChange={handleChange}
-                      className="w-full max-w-full border border-gray-300 px-3 py-2 sm:px-4 sm:py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200 box-border"
-                    />
+                      className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
+                    >
+                      <option value="">Select...</option>
+                      {[
+                        "BALLB (H)",
+                        "BBALLB (H)",
+                        "LL.M (CL)",
+                        "LL.M (ADR)",
+                        "BBA - 1st Shift",
+                        "BBA - 2nd Shift",
+                        "B.Com (H)- 1st shift",
+                        "B.Com (H)- 2nd shift",
+                        "BA(JMC)- 1st shift",
+                        "BA(JMC)- 2nd shift",
+                        "MAMC",
+                        "BCA- 1st shift",
+                        "BCA- 2nd shift",
+                        "MCA",
+                        "BA ECO (H)- 1st shift",
+                        "BA ECO (H)- 2nd shift",
+                        "MA (ECONOMICS)",
+                        "BA ENGLISH (H)",
+                        "MA (ENGLISH)",
+                        "B.Tech CSE",
+                        "B.Tech AI&ML",
+                        "B.Tech AI&DS",
+                        "B.Tech IIOT",
+                        "B.Tech EE (VLSI Design & Technology)",
+                        "B.Tech CSE (Cyber Security)",
+                        "B.Tech CS(Applied Mathematics)",
+                        "B.Tech (LE)- Diploma Holders",
+                        "B.Tech (LE)- BSc Graduates",
+                      ].map((dept) => (
+                        <option key={dept} value={dept}>
+                          {dept}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div>
