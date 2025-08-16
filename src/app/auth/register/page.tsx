@@ -210,6 +210,7 @@ export default function Society() {
 
   async function isUsernameAvailable() {
     try {
+      if (formData.username == "") return;
       setUsernameChecking(true);
 
       const res = await fetch(
@@ -234,7 +235,7 @@ export default function Society() {
       if (falseEmailFormat) {
         return;
       }
-      if (isEmailEmpty) {
+      if (formData.collegeEmail == "") {
         return;
       }
       setCheckingMail(true);
@@ -271,6 +272,7 @@ export default function Society() {
   }
   async function verifyOtp() {
     try {
+      if (formData.otp == "") return;
       setVerifyingOtp(true);
       const res = await fetch("/api/otp/verify", {
         method: "POST",
