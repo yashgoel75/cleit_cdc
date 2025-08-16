@@ -7,12 +7,16 @@ import { getAuth, signOut, onAuthStateChanged, User } from "firebase/auth";
 import logo from "@/assets/cleit.png";
 import { auth } from "@/lib/firebase";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [displayName, setDisplayName] = useState("");
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isLogoutConfirmationMessage, setIsLogoutConfirmationMessage] =
+    useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,16 +43,15 @@ export default function Header() {
       if (!response.ok)
         throw new Error(data.error || "Failed to fetch user name");
       setDisplayName(data.user.name);
-      console.log(data.user.name);
     } catch (err) {
       console.error(err);
     }
   };
-  const [isLogoutConfirmationMessage, setIsLogoutConfirmationMessage] =
-    useState(false);
+
   const handleLogoutConfirmation = () => {
     setIsLogoutConfirmationMessage(true);
   };
+
   const handleLogout = async () => {
     try {
       await signOut(getAuth());
@@ -78,34 +81,26 @@ export default function Header() {
 
   const UserMenu = () => (
     <div className="flex items-center gap-5">
-      <nav className="font-medium text-lg">
-        <ul className="flex gap-4">
-        </ul>
-      </nav>
       {isLogoutConfirmationMessage ? (
-        <>
-          <div className="flex-1">
-            <div>
-              <span className="text-red-500 text-base">
-                Are you sure you want to logout?
-              </span>
-            </div>
-            <div className="flex gap-4">
-              <button
-                className="hover:cursor-pointer hover:underline text-red-700"
-                onClick={handleLogout}
-              >
-                Yes
-              </button>
-              <button
-                className="hover:cursor-pointer hover:underline"
-                onClick={() => setIsLogoutConfirmationMessage(false)}
-              >
-                No
-              </button>
-            </div>
+        <div className="flex-1">
+          <span className="text-red-500 text-base">
+            Are you sure you want to logout?
+          </span>
+          <div className="flex gap-4 mt-2">
+            <button
+              className="hover:cursor-pointer text-red-700"
+              onClick={handleLogout}
+            >
+              Yes
+            </button>
+            <button
+              className="hover:cursor-pointer"
+              onClick={() => setIsLogoutConfirmationMessage(false)}
+            >
+              No
+            </button>
           </div>
-        </>
+        </div>
       ) : (
         <button
           title="Logout"
@@ -128,6 +123,7 @@ export default function Header() {
 
   return (
     <>
+      {/* Mobile Nav */}
       {isMobileNavOpen && (
         <div className="lg:hidden fixed inset-0 bg-white z-40 px-5 py-3">
           <div className="flex justify-between items-center mb-6 relative">
@@ -144,7 +140,7 @@ export default function Header() {
           <div className="space-y-5 text-lg">
             {user ? (
               <>
-                <p className={`font-semibold cursor-pointer`}>
+                <p className="font-semibold cursor-pointer">
                   Vivekananda Institute of Professional Studies
                 </p>
                 <p
@@ -153,30 +149,40 @@ export default function Header() {
                 >
                   {displayName}
                 </p>
+
+                <p
+                  onClick={() => router.push("/account/jobs")}
+                  className="cursor-pointer hover:underline"
+                >
+                  Jobs
+                </p>
+                <p
+                  onClick={() => router.push("/account/tests")}
+                  className="cursor-pointer hover:underline"
+                >
+                  Tests
+                </p>
+
                 {isLogoutConfirmationMessage ? (
-                  <>
-                    <div className="flex-1">
-                      <div>
-                        <span className="text-red-500">
-                          Are you sure you want to logout?
-                        </span>
-                      </div>
-                      <div className="flex gap-4">
-                        <button
-                          className="hover:cursor-pointer text-red-700"
-                          onClick={handleLogout}
-                        >
-                          Yes
-                        </button>
-                        <button
-                          className="hover:cursor-pointer"
-                          onClick={() => setIsLogoutConfirmationMessage(false)}
-                        >
-                          No
-                        </button>
-                      </div>
+                  <div className="flex-1">
+                    <span className="text-red-500">
+                      Are you sure you want to logout?
+                    </span>
+                    <div className="flex gap-4 mt-2">
+                      <button
+                        className="hover:cursor-pointer text-red-700"
+                        onClick={handleLogout}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        className="hover:cursor-pointer"
+                        onClick={() => setIsLogoutConfirmationMessage(false)}
+                      >
+                        No
+                      </button>
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <button
                     onClick={handleLogoutConfirmation}
@@ -199,6 +205,7 @@ export default function Header() {
         </div>
       )}
 
+      {/* Header */}
       <header className="w-full px-5 py-10 relative flex items-center justify-center bg-white border-b border-gray-300 sticky top-0 z-30">
         <div className="flex items-center gap-4 absolute left-0 px-5">
           <Link className="focus:outline-none" href={"/"}>
@@ -246,6 +253,48 @@ export default function Header() {
           </button>
         </div>
       </header>
+
+      {(!isMobile && user) && (
+        <div className="hidden lg:flex w-full border-b border-gray-300 py-2 justify-center">
+          <nav className="flex gap-2 font-medium">
+            {user ? (
+              <Link href={"/account"}>
+                <button
+                  className={`cursor-pointer px-4 py-1 rounded-md transition ${
+                    pathname.endsWith("/account")
+                      ? "bg-indigo-600 text-white"
+                      : "text-gray-700 hover:bg-indigo-50"
+                  }`}
+                >
+                  Account
+                </button>
+              </Link>
+            ) : null}
+            <Link href={"/account/jobs"}>
+              <button
+                className={`cursor-pointer px-4 py-1 rounded-md transition ${
+                  pathname.endsWith("/jobs")
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-700 hover:bg-indigo-50"
+                }`}
+              >
+                Jobs
+              </button>
+            </Link>
+            <Link href={"/account/tests"}>
+              <button
+                className={`cursor-pointer px-4 py-1 rounded-md transition ${
+                  pathname.endsWith("/tests")
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-700 hover:bg-indigo-50"
+                }`}
+              >
+                Tests
+              </button>
+            </Link>
+          </nav>
+        </div>
+      )}
     </>
   );
 }

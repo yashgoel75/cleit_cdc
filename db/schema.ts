@@ -1,6 +1,33 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
+const job = new Schema({
+    company: String,
+    role: String,
+    location: String,
+    description: String,
+    deadline: String,
+    postedAt: { type: Date, default: Date.now },
+    jobDescriptionPdf: String,
+    eligibility: [String],
+    linkToApply: String,
+    studentsApplied: [String]
+}, { timestamps: true })
+
+const test = new Schema({
+    title: { type: String, required: true },
+    description: String,
+    date: String,
+    time: String,
+    duration: String,
+    mode: { type: String },
+    link: String,
+    instructions: [String],
+    eligibility: [String],
+    deadline: String,
+    studentsApplied: [String]
+}, { timestamps: true })
+
 const user = new Schema({
     name: String,
     username: String,
@@ -23,6 +50,8 @@ const user = new Schema({
     reminders: [{ societyUsername: String }],
 });
 
+const Job = mongoose.models.Job || mongoose.model("Job", job);
+const Test = mongoose.models.Test || mongoose.model("Test", test);
 const User = mongoose.models.User || mongoose.model("User", user);
 
-export { User };
+export { Job, Test, User };
