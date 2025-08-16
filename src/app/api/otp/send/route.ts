@@ -14,12 +14,12 @@ export async function POST(req: NextRequest) {
 
     try {
         const { data } = await resend.emails.send({
-            from: "Cleit <auth.cleit.in>",
+            from: "Cleit <noreply@cleit.in>",
             to: email,
             subject: "Welcome to Cleit CDC - OTP Verification",
             html: `
-            <div style="background-color: #f4f4f7; padding: 40px; font-family: Arial, sans-serif;">
-                <div style="max-width: 550px; margin: auto; background-color: white; border-radius: 8px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+            <div style="background-color: #f4f4f7; padding: 20px; font-family: Arial, sans-serif;">
+                <div style="margin: auto; background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
                     
                     <div style="text-align: center; margin-bottom: 20px;">
                     <img src="https://res.cloudinary.com/dqwjvwb8z/image/upload/v1753870491/cleit_ay8dhd.png" 
