@@ -56,7 +56,7 @@ export default function Header() {
     try {
       await signOut(getAuth());
       setUser(null);
-      router.push("/");
+      router.replace("/");
     } catch (err) {
       console.error("Logout error:", err);
     }
@@ -144,20 +144,20 @@ export default function Header() {
                   Vivekananda Institute of Professional Studies
                 </p>
                 <p
-                  onClick={() => router.push("/account")}
+                  onClick={() => router.replace("/account")}
                   className="font-semibold cursor-pointer"
                 >
                   {displayName}
                 </p>
 
                 <p
-                  onClick={() => router.push("/account/jobs")}
+                  onClick={() => router.replace("/account/jobs")}
                   className="cursor-pointer hover:underline"
                 >
                   Jobs
                 </p>
                 <p
-                  onClick={() => router.push("/account/tests")}
+                  onClick={() => router.replace("/account/tests")}
                   className="cursor-pointer hover:underline"
                 >
                   Tests

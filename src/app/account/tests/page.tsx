@@ -84,12 +84,19 @@ export default function StudentTests() {
         ) : tests.length === 0 ? (
           <p className="text-center text-gray-600">No tests available.</p>
         ) : (
-          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <section
+            className={`grid gap-6 justify-center ${
+              tests.length < 3
+                ? tests.length === 1
+                  ? "grid-cols-1 place-items-center"
+                  : "grid-cols-2"
+                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
             {tests.map((test) => (
               <div
                 key={test._id}
-                className="bg-white border rounded-xl shadow-md p-6 hover:shadow-xl"
-                onClick={() => router.push(`/account/tests/${test._id}`)}
+                className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 flex flex-col justify-between w-full max-w-sm transform hover:-translate-y-1"
               >
                 <h3 className="text-2xl font-semibold mb-2">{test.title}</h3>
                 <p>
@@ -102,10 +109,16 @@ export default function StudentTests() {
                   <span className="font-medium">Mode:</span> {test.mode}
                 </p>
                 <p className="mt-2 text-gray-700">{test.description}</p>
-                <div className="flex justify-center mt-4">
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={() => router.push(`/account/tests/${test._id}`)}
+                    className="border-gray-300 border px-5 py-2 rounded-md hover:bg-gray-300 cursor-pointer hover:text-gray-700"
+                  >
+                    More info
+                  </button>
                   <button
                     onClick={() => handleApply(test._id!)}
-                    className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+                    className="bg-indigo-500 text-white px-5 py-2 cursor-pointer rounded-md hover:bg-indigo-700"
                   >
                     Apply
                   </button>

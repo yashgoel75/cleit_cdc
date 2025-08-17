@@ -75,7 +75,7 @@ export default function JobDetails() {
   return (
     <>
       <Header />
-      <main className="w-[95%] min-h-[85vh] lg:w-full max-w-4xl mx-auto py-10 md:py-16 px-4">
+      <main className="w-full flex items-center justify-center px-4 py-10 md:py-16">
         {loading ? (
           <p className="text-center text-gray-600">Loading job details...</p>
         ) : error ? (
@@ -83,11 +83,17 @@ export default function JobDetails() {
         ) : !job ? (
           <p className="text-center text-gray-600">Job not found.</p>
         ) : (
-          <div className="bg-white border rounded-xl shadow-md p-6">
-            <h2 className="text-3xl font-bold mb-2">{job.role}</h2>
-            <p className="mb-2"><span className="font-medium">Company:</span> {job.company}</p>
-            <p className="mb-2"><span className="font-medium">Location:</span> {job.location}</p>
-            <p className="mb-2"><span className="font-medium">Deadline:</span> {job.deadline}</p>
+          <div className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 w-full max-w-lg transform hover:-translate-y-1">
+            <h2 className="text-3xl font-bold mb-4 text-center">{job.role}</h2>
+            <p className="mb-2">
+              <span className="font-medium">Company:</span> {job.company}
+            </p>
+            <p className="mb-2">
+              <span className="font-medium">Location:</span> {job.location}
+            </p>
+            <p className="mb-2">
+              <span className="font-medium">Deadline:</span> {job.deadline}
+            </p>
             <p className="mt-4 text-gray-700">{job.description}</p>
 
             {job.eligibility && job.eligibility.length > 0 && (
@@ -102,7 +108,7 @@ export default function JobDetails() {
             )}
 
             {job.jobDescriptionPdf && (
-              <div className="mt-6">
+              <div className="mt-6 text-center">
                 <a
                   href={job.jobDescriptionPdf}
                   target="_blank"
@@ -114,13 +120,13 @@ export default function JobDetails() {
               </div>
             )}
 
-            <div className="flex justify-between mt-6">
+            <div className="flex flex-col md:flex-row justify-center gap-4 mt-6">
               {job.linkToApply && (
                 <a
                   href={job.linkToApply}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700"
+                  className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 text-center"
                 >
                   Apply via Company Site
                 </a>

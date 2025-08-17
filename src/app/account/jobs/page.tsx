@@ -84,12 +84,20 @@ export default function StudentJobs() {
         ) : jobs.length === 0 ? (
           <p className="text-center text-gray-600">No jobs available.</p>
         ) : (
-          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <section
+            className={`grid gap-6 justify-center ${
+              jobs.length < 3
+                ? jobs.length === 1
+                  ? "grid-cols-1 place-items-center"
+                  : "grid-cols-2"
+                : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+            }`}
+          >
+            {" "}
             {jobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-white border rounded-xl shadow-md p-6 hover:shadow-xl"
-                onClick={() => router.push(`/account/jobs/${job._id}`)}
+                className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 flex flex-col justify-between w-full max-w-sm transform hover:-translate-y-1"
               >
                 <h3 className="text-2xl font-semibold mb-2">{job.company}</h3>
                 <p>
@@ -105,10 +113,16 @@ export default function StudentJobs() {
                     : "N/A"}
                 </p>
                 <p className="mt-2 text-gray-700">{job.description}</p>
-                <div className="flex justify-center mt-4">
+                <div className="flex justify-between mt-4">
+                  <button
+                    onClick={() => router.push(`/account/jobs/${job._id}`)}
+                    className="border-gray-300 border px-5 py-2 rounded-md hover:bg-gray-300 cursor-pointer hover:text-gray-700"
+                  >
+                    More info
+                  </button>
                   <button
                     onClick={() => handleApply(job._id!)}
-                    className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700"
+                    className="bg-indigo-500 cursor-pointer text-white px-5 py-2 rounded-md hover:bg-indigo-700"
                   >
                     Apply
                   </button>
