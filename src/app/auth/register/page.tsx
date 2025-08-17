@@ -1052,7 +1052,7 @@ export default function Society() {
                       Tenth Percentage
                     </label>
                     <input
-                      type="text"
+                      type="number" step="any"
                       name="tenthPercentage"
                       value={formData.tenthPercentage}
                       onChange={handleChange}
@@ -1082,7 +1082,7 @@ export default function Society() {
                       Twelfth Percentage
                     </label>
                     <input
-                      type="text"
+                      type="number" step="any"
                       name="twelfthPercentage"
                       value={formData.twelfthPercentage}
                       onChange={handleChange}
@@ -1112,7 +1112,7 @@ export default function Society() {
                       College GPA till now
                     </label>
                     <input
-                      type="text"
+                      type="number" step="any"
                       name="collegeGPA"
                       value={formData.collegeGPA}
                       onChange={handleChange}
