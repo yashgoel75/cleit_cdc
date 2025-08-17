@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
 
         console.log(user);
     } catch (e) {
-        NextResponse.json("Error!");
+        return NextResponse.json({error: e});
     }
 
     return NextResponse.json({ ok: true });
