@@ -162,7 +162,7 @@ export default function StudentTests() {
                         }}
                       />
                       <div className="mt-2 text-xs text-gray-500">
-                        Click "More Info" to see full description
+                        Click &quot;More Info&quot; to see full description
                       </div>
                     </div>
                   </div>
