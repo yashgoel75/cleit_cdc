@@ -345,7 +345,16 @@ export default function Society() {
       setIsConfirmPasswordEmpty(formData.confirmPassword == "");
       return;
     }
-    if (!validOtp) return;
+    if (
+      !validOtp ||
+      falsePasswordFormat ||
+      falseConfirmPassword ||
+      falseEmailFormat ||
+      falseUsernameFormat ||
+      !validOtp ||
+      invalidOtp
+    )
+      return;
     setIsBasicDetails(false);
     setIsAcademicDetails(true);
   }
@@ -1052,7 +1061,8 @@ export default function Society() {
                       Tenth Percentage
                     </label>
                     <input
-                      type="number" step="any"
+                      type="number"
+                      step="any"
                       name="tenthPercentage"
                       value={formData.tenthPercentage}
                       onChange={handleChange}
@@ -1082,7 +1092,8 @@ export default function Society() {
                       Twelfth Percentage
                     </label>
                     <input
-                      type="number" step="any"
+                      type="number"
+                      step="any"
                       name="twelfthPercentage"
                       value={formData.twelfthPercentage}
                       onChange={handleChange}
@@ -1112,7 +1123,8 @@ export default function Society() {
                       College GPA till now
                     </label>
                     <input
-                      type="number" step="any"
+                      type="number"
+                      step="any"
                       name="collegeGPA"
                       value={formData.collegeGPA}
                       onChange={handleChange}
