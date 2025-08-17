@@ -34,11 +34,11 @@ export default function JobDetails() {
     try {
       const res = await fetch(`/api/jobs/${jobId}`);
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to fetch job");
+      if (!res.ok) throw new Error(data.error || "Failed to fetch job details.");
       setJob(data.job);
       setError(null);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Unexpected error");
+      setError(err instanceof Error ? err.message : "Unexpected error occurred.");
     } finally {
       setLoading(false);
     }
@@ -52,11 +52,11 @@ export default function JobDetails() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: currentUser.email }),
       });
-      if (!res.ok) throw new Error("Failed to apply");
-      alert("Applied successfully!");
+      if (!res.ok) throw new Error("Failed to apply.");
+      alert("Application submitted successfully.");
     } catch (err) {
       console.error(err);
-      alert("Failed to apply");
+      alert("There was a problem submitting your application.");
     }
   };
 
@@ -75,65 +75,69 @@ export default function JobDetails() {
   return (
     <>
       <Header />
-      <main className="w-full flex items-center justify-center px-4 py-10 md:py-16">
+      <main className="w-full flex items-center justify-center px-4 py-10 md:py-16 min-h-[85vh]">
         {loading ? (
-          <p className="text-center text-gray-600">Loading job details...</p>
+          <p className="text-center text-gray-600 text-lg">Loading job details...</p>
         ) : error ? (
-          <p className="text-center text-red-500">{error}</p>
+          <p className="text-center text-red-600 font-medium">{error}</p>
         ) : !job ? (
           <p className="text-center text-gray-600">Job not found.</p>
         ) : (
-          <div className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 w-full max-w-lg transform hover:-translate-y-1">
-            <h2 className="text-3xl font-bold mb-4 text-center">{job.role}</h2>
-            <p className="mb-2">
-              <span className="font-medium">Company:</span> {job.company}
-            </p>
-            <p className="mb-2">
-              <span className="font-medium">Location:</span> {job.location}
-            </p>
-            <p className="mb-2">
-              <span className="font-medium">Deadline:</span> {job.deadline}
-            </p>
-            <p className="mt-4 text-gray-700">{job.description}</p>
+          <div className="bg-white border border-gray-200 rounded-xl p-6 w-full max-w-2xl shadow-md">
+            <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">{job.role}</h1>
 
-            {job.eligibility && job.eligibility.length > 0 && (
+            <div className="space-y-3 text-gray-700">
+              <p><span className="font-semibold">Company:</span> {job.company}</p>
+              <p><span className="font-semibold">Location:</span> {job.location}</p>
+              <p><span className="font-semibold">Deadline:</span> {job.deadline}</p>
+              {job.postedAt && (
+                <p><span className="font-semibold">Posted On:</span> {new Date(job.postedAt).toLocaleDateString()}</p>
+              )}
+            </div>
+
+            <div className="mt-6">
+              <h2 className="font-semibold text-lg mb-2">Job Description</h2>
+              <p className="text-gray-800 whitespace-pre-line">{job.description}</p>
+            </div>
+
+            {job.eligibility?.length || 0 > 0 && (
               <div className="mt-6">
-                <h3 className="font-semibold">Eligibility:</h3>
-                <ul className="list-disc list-inside">
-                  {job.eligibility.map((el, i) => (
-                    <li key={i}>{el}</li>
+                <h3 className="font-semibold text-lg mb-2">Eligibility Criteria</h3>
+                <ul className="list-disc list-inside text-gray-700">
+                  {job.eligibility?.map((el, idx) => (
+                    <li key={idx}>{el}</li>
                   ))}
                 </ul>
               </div>
             )}
 
             {job.jobDescriptionPdf && (
-              <div className="mt-6 text-center">
+              <div className="mt-6">
                 <a
                   href={job.jobDescriptionPdf}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 underline"
+                  className="text-blue-600 underline hover:text-blue-800"
                 >
-                  View Job Description PDF
+                  View Full Job Description (PDF)
                 </a>
               </div>
             )}
 
-            <div className="flex flex-col md:flex-row justify-center gap-4 mt-6">
+            <div className="flex flex-col md:flex-row justify-center gap-4 mt-8">
               {job.linkToApply && (
                 <a
                   href={job.linkToApply}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 text-center"
+                  className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-5 rounded-md text-center"
                 >
-                  Apply via Company Site
+                  Apply on Company Site
                 </a>
               )}
               <button
                 onClick={handleApply}
-                className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-md"
               >
                 Apply Here
               </button>
