@@ -122,7 +122,7 @@ export default function Login() {
       <div className="w-[95%] lg:w-full max-w-4xl mx-auto pt-10 onest-normal">
         <div className="border md:text-lg border-gray-300 p-6 rounded-xl shadow-md bg-white mb-8">
           <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
-            Login to Career Development Cell of VIPS-TC
+            Login to Career Development Center of VIPS-TC
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex-1">

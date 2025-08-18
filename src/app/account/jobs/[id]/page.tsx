@@ -6,6 +6,7 @@ import Header from "@/app/Header/page";
 import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { getFirebaseToken } from "@/utils";
 
 export default function JobDetails() {
   interface Job {
@@ -32,7 +33,12 @@ export default function JobDetails() {
 
   const fetchJob = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/jobs/${jobId}`);
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/jobs/${jobId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch job details.");
       setJob(data.job);
@@ -47,9 +53,10 @@ export default function JobDetails() {
   const handleApply = async () => {
     if (!currentUser?.email || !id) return;
     try {
+      const token = await getFirebaseToken();
       const res = await fetch(`/api/jobs/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply.");

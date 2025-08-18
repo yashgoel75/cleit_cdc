@@ -1,9 +1,20 @@
 import { NextResponse } from "next/server";
 import { register } from "@/instrumentation";
 import { Job } from "../../../../../db/schema";
+import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 
 export async function GET(req, { params }) {
   await register();
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return NextResponse.json({ error: "Missing token" }, { status: 401 });
+  }
+  const token = authHeader.split(" ")[1];
+  const decodedToken = await verifyFirebaseToken(token);
+  if (!decodedToken) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = params;
 
   const job = await Job.findById(id);
@@ -16,6 +27,15 @@ export async function GET(req, { params }) {
 
 export async function PATCH(req, { params }) {
   await register();
+  const authHeader = req.headers.get("Authorization");
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return NextResponse.json({ error: "Missing token" }, { status: 401 });
+  }
+  const token = authHeader.split(" ")[1];
+  const decodedToken = await verifyFirebaseToken(token);
+  if (!decodedToken) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const { id } = params;
   const { email } = await req.json();
 

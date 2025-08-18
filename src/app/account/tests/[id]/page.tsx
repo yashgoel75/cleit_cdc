@@ -6,6 +6,7 @@ import Header from "@/app/Header/page";
 import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import { getFirebaseToken } from "@/utils";
 
 export default function TestDetails() {
   interface Test {
@@ -34,7 +35,12 @@ export default function TestDetails() {
   // Fetch test details by id
   const fetchTest = async (testId: string) => {
     try {
-      const res = await fetch(`/api/tests/${testId}`);
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/tests/${testId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch test");
       setTest(data.test);
@@ -49,9 +55,10 @@ export default function TestDetails() {
   const handleApply = async () => {
     if (!currentUser?.email || !id) return;
     try {
+      const token = await getFirebaseToken();
       const res = await fetch(`/api/tests/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply");

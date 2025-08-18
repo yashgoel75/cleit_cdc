@@ -11,6 +11,7 @@ import Image from "next/image";
 import linkedin from "@/assets/LinkedIn.png";
 import Github from "@/assets/Github.png";
 import Leetcode from "@/assets/Leetcode.png";
+import { getFirebaseToken } from "@/utils";
 
 interface UserProfile {
   name: string;
@@ -80,7 +81,12 @@ export default function Account() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/user?email=${encodeURIComponent(email)}`);
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/user?email=${encodeURIComponent(email)}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to fetch user data.");
@@ -130,9 +136,13 @@ export default function Account() {
     setIsUpdating(true);
     setError(null);
     try {
+      const token = await getFirebaseToken();
       const res = await fetch("/api/user", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           email: currentUser.email,
           updates: { ...formData },
@@ -179,9 +189,13 @@ export default function Account() {
     setIsUploadingResume(true);
 
     try {
+      const token = await getFirebaseToken();
       const sigRes = await fetch("/api/signresume", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ folder: "resumes" }),
       });
       const { signature, timestamp, apiKey, folder } = await sigRes.json();
@@ -222,8 +236,12 @@ export default function Account() {
 
   async function checkUsername() {
     setUsernameChecking(true);
+    const token = await getFirebaseToken();
     const res = await fetch(
-      `/api/register/user?username=${formData?.username}`
+      `/api/register/user?username=${formData?.username}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     const data = await res.json();
     setUsernameChecking(false);
@@ -512,7 +530,11 @@ export default function Account() {
                         type="button"
                         onClick={() => checkUsername()}
                         disabled={usernameChecking}
-                        className={`px-3 min-w-[95px] items-center text-center bg-indigo-500 text-white rounded-md ${usernameChecking ? "cursor-not-allowed opacity-50" : "hover:cursor-pointer"}`}
+                        className={`px-3 min-w-[95px] items-center text-center bg-indigo-500 text-white rounded-md ${
+                          usernameChecking
+                            ? "cursor-not-allowed opacity-50"
+                            : "hover:cursor-pointer"
+                        }`}
                       >
                         {usernameChecking ? "Checking" : "Check"}
                       </button>

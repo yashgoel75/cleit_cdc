@@ -17,31 +17,30 @@ export default function About() {
           <span className="font-semibold">
             Vivekananda Institute of Professional Studies
           </span>
-          &nbsp;that connects students with every society and event on campus.
+          , built in collaboration with the&nbsp;
+          <span className="font-semibold">Career Development Center (CDC)</span>.
         </p>
 
         <p className="text-lg leading-relaxed mb-6">
-          We noticed a gap — many students, even after years at VIPS,
-          didn&apos;t know about the range of societies or when important events
-          were happening. Cleit solves that by bringing&nbsp;
-          <span className="font-medium text-indigo-600">
-            all society information into one simple, accessible space.
-          </span>
+          It provides a single space where students can explore and participate
+          in all career-related opportunities — including placement drives,
+          internships, skill-based assessments, and job openings — without the
+          need to go through multiple emails or scattered announcements.
         </p>
 
         <p className="text-lg leading-relaxed mb-6">
-          From upcoming events to audition details, eligibility, contact
-          information, and more — everything is updated and organized so you
-          never miss an opportunity to participate, connect, and grow.
+          Through Cleit, students can directly check eligibility, apply to
+          companies, stay updated on deadlines, and engage with opportunities
+          that shape their professional growth.
         </p>
 
         <p className="text-lg leading-relaxed">
-          Today, Cleit serves VIPS, but our vision is bigger — to create a
-          nationwide network where college life feels&nbsp;
+          Our vision is to make career opportunities&nbsp;
           <span className="font-medium text-indigo-600">
-            connected, engaging, and inspiring
+            organized, accessible, and empowering
           </span>
-          &nbsp; for every student.
+          &nbsp;for every student at VIPS — and eventually across campuses
+          nationwide.
         </p>
       </main>
       <Footer />

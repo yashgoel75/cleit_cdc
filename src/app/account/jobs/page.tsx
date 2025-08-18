@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import { getFirebaseToken } from "@/utils";
 
 export default function StudentJobs() {
   interface Job {
@@ -29,7 +30,12 @@ export default function StudentJobs() {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch(`/api/jobs`);
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/jobs`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch jobs");
       setJobs(data.jobs);
@@ -44,9 +50,10 @@ export default function StudentJobs() {
   const handleApply = async (jobId: string) => {
     if (!currentUser?.email) return;
     try {
+      const token = await getFirebaseToken();
       const res = await fetch(`/api/jobs/${jobId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply");

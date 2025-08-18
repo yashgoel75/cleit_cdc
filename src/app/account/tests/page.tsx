@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import { getFirebaseToken } from "@/utils";
 
 export default function StudentTests() {
   interface Test {
@@ -28,7 +29,12 @@ export default function StudentTests() {
 
   const fetchTests = async (email: string | null | undefined) => {
     try {
-      const res = await fetch(`/api/tests`);
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/tests`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch tests");
       setTests(data.tests);
@@ -43,9 +49,10 @@ export default function StudentTests() {
   const handleApply = async (testId: string) => {
     if (!currentUser?.email) return;
     try {
+      const token = await getFirebaseToken();
       const res = await fetch(`/api/tests/${testId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply");
