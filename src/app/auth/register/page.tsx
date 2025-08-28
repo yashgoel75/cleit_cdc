@@ -1158,7 +1158,6 @@ export default function Society() {
                         type="number"
                         name="batchStart"
                         value={formData.batchStart}
-                        disabled
                         onChange={handleChange}
                         placeholder="2023"
                         className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
@@ -1191,7 +1190,6 @@ export default function Society() {
                         type="number"
                         name="batchEnd"
                         value={formData.batchEnd}
-                        disabled
                         onChange={handleChange}
                         placeholder="2027"
                         className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
