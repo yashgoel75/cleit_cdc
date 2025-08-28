@@ -329,32 +329,32 @@ export default function Society() {
   }, [formData]);
 
   function handleNextToAcademicDetails() {
-    if (
-      formData.name == "" ||
-      formData.username == "" ||
-      formData.phone == "" ||
-      formData.collegeEmail == "" ||
-      formData.password == "" ||
-      formData.confirmPassword == ""
-    ) {
-      setIsNameEmpty(formData.name == "");
-      setIsUsernameEmpty(formData.username == "");
-      setIsPhoneNumberEmpty(formData.phone == "");
-      setIsEmailEmpty(formData.collegeEmail == "");
-      setIsPasswordEmpty(formData.password == "");
-      setIsConfirmPasswordEmpty(formData.confirmPassword == "");
-      return;
-    }
-    if (
-      !validOtp ||
-      falsePasswordFormat ||
-      falseConfirmPassword ||
-      falseEmailFormat ||
-      falseUsernameFormat ||
-      !validOtp ||
-      invalidOtp
-    )
-      return;
+    // if (
+    //   formData.name == "" ||
+    //   formData.username == "" ||
+    //   formData.phone == "" ||
+    //   formData.collegeEmail == "" ||
+    //   formData.password == "" ||
+    //   formData.confirmPassword == ""
+    // ) {
+    //   setIsNameEmpty(formData.name == "");
+    //   setIsUsernameEmpty(formData.username == "");
+    //   setIsPhoneNumberEmpty(formData.phone == "");
+    //   setIsEmailEmpty(formData.collegeEmail == "");
+    //   setIsPasswordEmpty(formData.password == "");
+    //   setIsConfirmPasswordEmpty(formData.confirmPassword == "");
+    //   return;
+    // }
+    // if (
+    //   !validOtp ||
+    //   falsePasswordFormat ||
+    //   falseConfirmPassword ||
+    //   falseEmailFormat ||
+    //   falseUsernameFormat ||
+    //   !validOtp ||
+    //   invalidOtp
+    // )
+    //   return;
     setIsBasicDetails(false);
     setIsAcademicDetails(true);
   }
@@ -1157,7 +1157,8 @@ export default function Society() {
                       <input
                         type="number"
                         name="batchStart"
-                        value={formData.batchStart}
+                        value={2022}
+                        disabled
                         onChange={handleChange}
                         placeholder="2023"
                         className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
@@ -1189,7 +1190,8 @@ export default function Society() {
                       <input
                         type="number"
                         name="batchEnd"
-                        value={formData.batchEnd}
+                        value={2026}
+                        disabled
                         onChange={handleChange}
                         placeholder="2027"
                         className="w-full border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring focus:ring-indigo-200"
