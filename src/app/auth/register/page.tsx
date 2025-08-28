@@ -27,8 +27,8 @@ export default function Society() {
     tenthPercentage: "",
     twelfthPercentage: "",
     collegeGPA: "",
-    batchStart: 2022,
-    batchEnd: 2026,
+    batchStart: "",
+    batchEnd: "",
     linkedin: "",
     github: "",
     leetcode: "",
@@ -365,17 +365,17 @@ export default function Society() {
       formData.department == "" ||
       formData.tenthPercentage == "" ||
       formData.twelfthPercentage == "" ||
-      formData.collegeGPA == ""
-      // formData.batchStart == "" ||
-      // formData.batchEnd == """
+      formData.collegeGPA == "" ||
+      formData.batchStart == "" ||
+      formData.batchEnd == ""
     ) {
       setIsEnrollmentNumberEmpty(formData.enrollmentNumber == "");
       setIsDepartmentEmpty(formData.department == "");
       setIstenthPercentageEmpty(formData.twelfthPercentage == "");
       setIstwelfthPercentageEmpty(formData.twelfthPercentage == "");
       setIsCollegeCGPAEmpty(formData.collegeGPA == "");
-      // setIsStartYearEmpty(formData.batchStart == "");
-      // setIsEndYearEmpty(formData.batchEnd == "");
+      setIsStartYearEmpty(formData.batchStart == "");
+      setIsEndYearEmpty(formData.batchEnd == "");
       return;
     }
     setIsAcademicDetails(false);
@@ -1157,7 +1157,7 @@ export default function Society() {
                       <input
                         type="number"
                         name="batchStart"
-                        value={2022}
+                        value={formData.batchStart}
                         disabled
                         onChange={handleChange}
                         placeholder="2023"
@@ -1190,7 +1190,7 @@ export default function Society() {
                       <input
                         type="number"
                         name="batchEnd"
-                        value={2026}
+                        value={formData.batchEnd}
                         disabled
                         onChange={handleChange}
                         placeholder="2027"
