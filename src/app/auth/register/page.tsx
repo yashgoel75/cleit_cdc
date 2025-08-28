@@ -329,32 +329,32 @@ export default function Society() {
   }, [formData]);
 
   function handleNextToAcademicDetails() {
-    // if (
-    //   formData.name == "" ||
-    //   formData.username == "" ||
-    //   formData.phone == "" ||
-    //   formData.collegeEmail == "" ||
-    //   formData.password == "" ||
-    //   formData.confirmPassword == ""
-    // ) {
-    //   setIsNameEmpty(formData.name == "");
-    //   setIsUsernameEmpty(formData.username == "");
-    //   setIsPhoneNumberEmpty(formData.phone == "");
-    //   setIsEmailEmpty(formData.collegeEmail == "");
-    //   setIsPasswordEmpty(formData.password == "");
-    //   setIsConfirmPasswordEmpty(formData.confirmPassword == "");
-    //   return;
-    // }
-    // if (
-    //   !validOtp ||
-    //   falsePasswordFormat ||
-    //   falseConfirmPassword ||
-    //   falseEmailFormat ||
-    //   falseUsernameFormat ||
-    //   !validOtp ||
-    //   invalidOtp
-    // )
-    //   return;
+    if (
+      formData.name == "" ||
+      formData.username == "" ||
+      formData.phone == "" ||
+      formData.collegeEmail == "" ||
+      formData.password == "" ||
+      formData.confirmPassword == ""
+    ) {
+      setIsNameEmpty(formData.name == "");
+      setIsUsernameEmpty(formData.username == "");
+      setIsPhoneNumberEmpty(formData.phone == "");
+      setIsEmailEmpty(formData.collegeEmail == "");
+      setIsPasswordEmpty(formData.password == "");
+      setIsConfirmPasswordEmpty(formData.confirmPassword == "");
+      return;
+    }
+    if (
+      !validOtp ||
+      falsePasswordFormat ||
+      falseConfirmPassword ||
+      falseEmailFormat ||
+      falseUsernameFormat ||
+      !validOtp ||
+      invalidOtp
+    )
+      return;
     setIsBasicDetails(false);
     setIsAcademicDetails(true);
   }
