@@ -367,7 +367,7 @@ export default function Society() {
       formData.twelfthPercentage == "" ||
       formData.collegeGPA == ""
       // formData.batchStart == "" ||
-      // formData.batchEnd == ""
+      // formData.batchEnd == """
     ) {
       setIsEnrollmentNumberEmpty(formData.enrollmentNumber == "");
       setIsDepartmentEmpty(formData.department == "");
