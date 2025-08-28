@@ -27,8 +27,8 @@ export default function Society() {
     tenthPercentage: "",
     twelfthPercentage: "",
     collegeGPA: "",
-    batchStart: "",
-    batchEnd: "",
+    batchStart: 2022,
+    batchEnd: 2026,
     linkedin: "",
     github: "",
     leetcode: "",
@@ -365,17 +365,17 @@ export default function Society() {
       formData.department == "" ||
       formData.tenthPercentage == "" ||
       formData.twelfthPercentage == "" ||
-      formData.collegeGPA == "" ||
-      formData.batchStart == "" ||
-      formData.batchEnd == ""
+      formData.collegeGPA == ""
+      // formData.batchStart == "" ||
+      // formData.batchEnd == ""
     ) {
       setIsEnrollmentNumberEmpty(formData.enrollmentNumber == "");
       setIsDepartmentEmpty(formData.department == "");
       setIstenthPercentageEmpty(formData.twelfthPercentage == "");
       setIstwelfthPercentageEmpty(formData.twelfthPercentage == "");
       setIsCollegeCGPAEmpty(formData.collegeGPA == "");
-      setIsStartYearEmpty(formData.batchStart == "");
-      setIsEndYearEmpty(formData.batchEnd == "");
+      // setIsStartYearEmpty(formData.batchStart == "");
+      // setIsEndYearEmpty(formData.batchEnd == "");
       return;
     }
     setIsAcademicDetails(false);
