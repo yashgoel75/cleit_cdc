@@ -423,7 +423,7 @@ export default function Society() {
       <div className="w-[95%] lg:w-full max-w-4xl mx-auto font-sans mt-10">
         <div className="md:text-lg border border-gray-300 p-4 md:p-6 rounded-xl shadow-md bg-white mb-8">
           <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">
-            Career Development Center Registration
+            Career Development Centre Registration
           </h1>
 
           <div className="w-full flex justify-center">

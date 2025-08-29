@@ -18,7 +18,7 @@ export default function About() {
             Vivekananda Institute of Professional Studies
           </span>
           , built in collaboration with the&nbsp;
-          <span className="font-semibold">Career Development Center (CDC)</span>.
+          <span className="font-semibold">Career Development Centre (CDC)</span>.
         </p>
 
         <p className="text-lg leading-relaxed mb-6">
