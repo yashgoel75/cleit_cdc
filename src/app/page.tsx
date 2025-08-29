@@ -43,8 +43,8 @@ export default function Home() {
 
           <p className="mt-6 text-gray-500 text-lg md:text-xl">
             {isMobile
-              ? "Cleit CDC is your one-stop platform for career development."
-              : "Cleit CDC is your one-stop platform for career development — register for placement activities, practice aptitude tests, stay updated with upcoming recruitment events, and connect with hiring companies."}
+              ? "Cleit is your one-stop platform for career development."
+              : "Cleit is your one-stop platform for career development — register for placement activities, practice aptitude tests, stay updated with upcoming recruitment events, and connect with hiring companies."}
           </p>
 
           <div className="mt-8">

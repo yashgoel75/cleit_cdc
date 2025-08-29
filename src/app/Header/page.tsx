@@ -39,10 +39,11 @@ export default function Header() {
     try {
       const token = await getFirebaseToken();
       const response = await fetch(
-        `/api/user?email=${encodeURIComponent(email)}`, {
+        `/api/user?email=${encodeURIComponent(email)}`,
+        {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       const data = await response.json();
@@ -147,7 +148,8 @@ export default function Header() {
             {user ? (
               <>
                 <p className="font-semibold cursor-pointer">
-                  Vivekananda Institute of Professional Studies
+                  Career Development Centre - Vivekananda Institute of Professional
+              Studies
                 </p>
                 <p
                   onClick={() => router.replace("/account")}
@@ -201,8 +203,8 @@ export default function Header() {
             ) : (
               <>
                 <p className="font-semibold cursor-pointer">
-                  Vivekananda Institute of Professional Studies - Technical
-                  Campus
+                  Career Development Centre - Vivekananda Institute of Professional
+              Studies
                 </p>
                 <AuthButtons />
               </>
@@ -221,7 +223,8 @@ export default function Header() {
         <div className="hidden lg:flex flex-1 justify-center items-center font-bold text-xl">
           <button>
             <a href="https://vips.edu">
-              Vivekananda Institute of Professional Studies
+              Career Development Centre - Vivekananda Institute of Professional
+              Studies
             </a>
           </button>
         </div>
@@ -260,7 +263,7 @@ export default function Header() {
         </div>
       </header>
 
-      {(!isMobile && user) && (
+      {!isMobile && user && (
         <div className="hidden lg:flex w-full border-b border-gray-300 py-2 justify-center">
           <nav className="flex gap-2 font-medium">
             {user ? (
