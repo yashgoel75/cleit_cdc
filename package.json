@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@upstash/redis": "^1.35.3",
@@ -16,6 +17,7 @@
     "firebase-admin": "^13.4.0",
     "mongoose": "^8.17.1",
     "next": "15.4.6",
+    "next-sitemap": "^4.2.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "resend": "^6.0.1"

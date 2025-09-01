@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://cdc.cleit.in
+
+# Sitemaps
+Sitemap: https://cdc.cleit.in/sitemap.xml
