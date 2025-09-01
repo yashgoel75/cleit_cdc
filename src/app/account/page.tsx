@@ -416,7 +416,11 @@ export default function Account() {
                       className="rounded"
                     ></Image>
                     <a
-                      href={`https://linkedin.com/in/${userData.linkedin}`}
+                      href={
+                        userData.linkedin.startsWith("http")
+                          ? userData.linkedin
+                          : `https://linkedin.com/in/${userData.linkedin}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline onest-bold"
@@ -434,7 +438,11 @@ export default function Account() {
                       className="rounded"
                     ></Image>
                     <a
-                      href={`https://github.com/${userData.github}`}
+                      href={
+                        userData.github.startsWith("http")
+                          ? userData.github
+                          : `https://github.com/${userData.github}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline onest-bold"
@@ -447,7 +455,11 @@ export default function Account() {
                   <div className="flex items-center gap-3">
                     <Image src={Leetcode} height={25} alt="Leetcode"></Image>
                     <a
-                      href={`https://leetcode.com/u/${userData.leetcode}`}
+                      href={
+                        userData.leetcode.startsWith("http")
+                          ? userData.leetcode
+                          : `https://leetcode.com/u/${userData.leetcode}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:underline onest-bold"
