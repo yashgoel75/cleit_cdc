@@ -4,6 +4,7 @@ import Member from "./member/member";
 import Footer from "../Footer/page";
 
 import yashgoel from "@/assets/team/yash_goel.png";
+import namanarora from "@/assets/team/naman_arora.png";
 import urvashisharma from "@/assets/team/urvashi_sharma.png";
 
 export default function Team() {
@@ -14,6 +15,13 @@ export default function Team() {
       role: "Founder & Product Lead",
       linkedin: "https://linkedin.com/in/yashgoel75",
       instagram: "",
+    },
+    {
+      imageSrc: namanarora,
+      name: "Naman Arora",
+      role: "Backend Lead",
+      linkedin: "https://linkedin.com/in/naman22a",
+      instagram: "https://instagram.com/naman22a",
     },
     {
       imageSrc: urvashisharma,
@@ -31,7 +39,7 @@ export default function Team() {
         <h2 className="text-4xl font-bold text-gray-900 mb-12 text-center">
           Meet Our Team
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-10 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center">
           {teamMembers.map((member, index) => (
             <Member
               key={index}

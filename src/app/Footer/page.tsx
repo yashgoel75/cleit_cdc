@@ -84,16 +84,17 @@ export default function Footer() {
                 Instagram
               </a>
             </li>
+             */}
             <li>
               <a
-                href="https://linkedin.com/"
+                href="https://linkedin.com/company/cleit"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-gray-700 transition"
               >
                 LinkedIn
               </a>
-            </li> */}
+            </li>
           </ul>
         </div>
       </div>
