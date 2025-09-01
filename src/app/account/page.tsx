@@ -59,6 +59,7 @@ export default function Account() {
   const [usernameExists, setUsernameExists] = useState(false);
   const [UsernameAvailable, setUsernameAvailable] = useState(false);
   const [usernameChecking, setUsernameChecking] = useState(false);
+  const [falseUsernameFormat, setFalseUsernameFormat] = useState(false);
 
   const router = useRouter();
 
@@ -133,6 +134,9 @@ export default function Account() {
     if (usernameExists) return;
     if (!currentUser?.email || !formData) return;
     if (falseEndYear) return;
+    if (falseUsernameFormat) return;
+    if (!formData.username) return;
+    if (!UsernameAvailable) return;
     setIsUpdating(true);
     setError(null);
     try {
@@ -169,6 +173,16 @@ export default function Account() {
       !!formData?.batchStart &&
         !!formData?.batchEnd &&
         Number(formData?.batchEnd) <= Number(formData?.batchStart)
+    );
+  }, [formData]);
+
+  useEffect(() => {
+
+    const usernameRegex = /^[a-zA-Z0-9._]{3,20}$/;
+    setFalseUsernameFormat(formData?.username ? !usernameRegex.test(formData?.username) : false);
+
+    setFalseEndYear(
+      !!formData?.batchStart && !!formData?.batchEnd && Number(formData?.batchEnd) <= Number(formData?.batchStart)
     );
   }, [formData]);
 
@@ -560,6 +574,20 @@ export default function Account() {
                       <p className="text-sm text-green-700">
                         Username Available
                       </p>
+                    ) : null}
+                    {falseUsernameFormat ? (
+                      <div className="flex mt-2 text-sm md:text-base justify-center items-center bg-red-300 text-red-800 rounded px-3 text-center py-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          height={isMobile ? "20px" : "24px"}
+                          viewBox="0 -960 960 960"
+                          width={isMobile ? "20px" : "24px"}
+                          fill="#992B15"
+                        >
+                          <path d="m40-120 440-760 440 760H40Zm138-80h604L480-720 178-200Zm302-40q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Zm40-100Z" />
+                        </svg>
+                        &nbsp; Please enter a valid username
+                      </div>
                     ) : null}
                   </div>
 
