@@ -136,7 +136,6 @@ export default function Account() {
     if (falseEndYear) return;
     if (falseUsernameFormat) return;
     if (!formData.username) return;
-    if (!UsernameAvailable) return;
     setIsUpdating(true);
     setError(null);
     try {
