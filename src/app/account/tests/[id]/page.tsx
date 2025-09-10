@@ -7,7 +7,7 @@ import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getFirebaseToken } from "@/utils";
-import "./page.css"
+import "./page.css";
 export default function TestDetails() {
   interface Test {
     _id?: string;
@@ -19,6 +19,7 @@ export default function TestDetails() {
     mode: string;
     link: string;
     pdfUrl: string;
+    studentsApplied?: string[];
     extraFields?: { fieldName: string; fieldValue: string }[];
   }
 
@@ -47,6 +48,17 @@ export default function TestDetails() {
     }
   };
 
+  const [isStudentApplied, setIsStudentApplied] = useState(false);
+  useEffect(() => {
+    const isAlreadyApplied = () => {
+      if (!currentUser?.email || !test) return false;
+      setIsStudentApplied(
+        test.studentsApplied?.includes(currentUser.email) || false
+      );
+    };
+    isAlreadyApplied();
+  }, [test, currentUser]);
+
   const handleApply = async () => {
     if (!currentUser?.email || !id) return;
     try {
@@ -60,7 +72,7 @@ export default function TestDetails() {
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply");
-      alert("Applied successfully!");
+      setIsStudentApplied(true);
     } catch (err) {
       console.error(err);
       alert("Failed to apply");
@@ -124,7 +136,19 @@ export default function TestDetails() {
                       className="flex justify-between border-b border-gray-300 pb-2"
                     >
                       <span className="font-medium">{field.fieldName}:</span>
-                      <span className="text-gray-700">{field.fieldValue.startsWith("https://res.cloudinary.com") ? <a target="_blank" href={field.fieldValue}><span className="underline text-indigo-600">View Test PDF</span></a> : field.fieldValue}</span>
+                      <span className="text-gray-700">
+                        {field.fieldValue.startsWith(
+                          "https://res.cloudinary.com"
+                        ) ? (
+                          <a target="_blank" href={field.fieldValue}>
+                            <span className="underline text-indigo-600">
+                              View Test PDF
+                            </span>
+                          </a>
+                        ) : (
+                          field.fieldValue
+                        )}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -141,16 +165,25 @@ export default function TestDetails() {
                 href={test.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700"
+                className={`bg-green-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                  isStudentApplied
+                    ? "cursor-not-allowed"
+                    : "hover:bg-green-700"
+                }`}
               >
                 Apply via Portal
               </a>
 
               <button
                 onClick={handleApply}
-                className="bg-indigo-500 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+                disabled={isStudentApplied}
+                className={`bg-indigo-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                  isStudentApplied
+                    ? "cursor-not-allowed"
+                    : "hover:bg-indigo-700"
+                }`}
               >
-                Applied?
+                {isStudentApplied ? "Applied" : "Applied on Portal?"}
               </button>
             </div>
           </div>

@@ -183,12 +183,12 @@ export default function StudentTests() {
                   >
                     More Info
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => handleApply(test._id!)}
                     className="flex-1 bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl transform cursor-pointer"
                   >
                     Apply Now
-                  </button>
+                  </button> */}
                 </div>
 
                 {/* Application Status Indicator */}
