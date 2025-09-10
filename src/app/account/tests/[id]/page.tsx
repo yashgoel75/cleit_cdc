@@ -7,24 +7,22 @@ import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getFirebaseToken } from "@/utils";
-
+import "./page.css"
 export default function TestDetails() {
   interface Test {
     _id?: string;
     title: string;
-    description: string;
+    description: string; // Now rendered as HTML
     date: string;
-    time?: string;
+    deadline: string; // includes both date + time
     duration: string;
     mode: string;
     link: string;
-    instructions?: string[];
-    eligibility?: string[];
-    deadline?: string;
-    studentsApplied?: string[];
+    pdfUrl: string;
+    extraFields?: { fieldName: string; fieldValue: string }[];
   }
 
-  const { id } = useParams(); // dynamic route id
+  const { id } = useParams();
   const router = useRouter();
 
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -32,14 +30,11 @@ export default function TestDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch test details by id
   const fetchTest = async (testId: string) => {
     try {
       const token = await getFirebaseToken();
       const res = await fetch(`/api/tests/${testId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch test");
@@ -58,7 +53,10 @@ export default function TestDetails() {
       const token = await getFirebaseToken();
       const res = await fetch(`/api/tests/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ email: currentUser.email }),
       });
       if (!res.ok) throw new Error("Failed to apply");
@@ -75,7 +73,7 @@ export default function TestDetails() {
         setCurrentUser(user);
         if (id) fetchTest(id as string);
       } else {
-        router.push("/"); // redirect if not logged in
+        router.push("/");
       }
     });
     return () => unsub();
@@ -85,68 +83,79 @@ export default function TestDetails() {
     <>
       <Header />
       <main className="w-full flex justify-center px-4 py-10 md:py-16">
-  {loading ? (
-    <p className="text-center text-gray-600">Loading test details...</p>
-  ) : error ? (
-    <p className="text-center text-red-500">{error}</p>
-  ) : !test ? (
-    <p className="text-center text-gray-600">Test not found.</p>
-  ) : (
-    <div className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 w-full max-w-lg transform hover:-translate-y-1">
-      <h2 className="text-3xl font-bold mb-4 text-center">{test.title}</h2>
-      <p className="mb-2">
-        <span className="font-medium">Date:</span> {test.date}
-      </p>
-      {test.time ? (
-        <p className="mb-2">
-          <span className="font-medium">Time:</span> {test.time}
-        </p>
-      ) : null}
-      <p className="mb-2">
-        <span className="font-medium">Duration:</span> {test.duration}
-      </p>
-      <p className="mb-2">
-        <span className="font-medium">Mode:</span> {test.mode}
-      </p>
-      <p className="mb-2">
-        <span className="font-medium">Deadline:</span> {test.deadline}
-      </p>
-      <p className="mt-4 text-gray-700">{test.description}</p>
+        {loading ? (
+          <p className="text-center text-gray-600">Loading test details...</p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : !test ? (
+          <p className="text-center text-gray-600">Test not found.</p>
+        ) : (
+          <div className="bg-white border border-gray-200 hover:shadow-xl rounded-xl p-6 transition-all duration-300 w-full max-w-2xl transform hover:-translate-y-1">
+            <h2 className="text-3xl font-bold mb-4 text-center text-indigo-700">
+              {test.title}
+            </h2>
 
-      {test.instructions && test.instructions.length > 0 && (
-        <div className="mt-6">
-          <h3 className="font-semibold">Instructions:</h3>
-          <ul className="list-disc list-inside">
-            {test.instructions.map((inst, i) => (
-              <li key={i}>{inst}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+            <div className="space-y-2 text-gray-700">
+              <p>
+                <span className="font-medium">📅 Date:</span> {test.date}
+              </p>
+              <p>
+                <span className="font-medium">⏳ Duration:</span>{" "}
+                {test.duration}
+              </p>
+              <p>
+                <span className="font-medium">💻 Mode:</span> {test.mode}
+              </p>
+              <p>
+                <span className="font-medium">🕒 Deadline:</span>{" "}
+                {new Date(test.deadline).toLocaleString()}
+              </p>
+            </div>
 
-      {test.eligibility && test.eligibility.length > 0 && (
-        <div className="mt-6">
-          <h3 className="font-semibold">Eligibility:</h3>
-          <ul className="list-disc list-inside">
-            {test.eligibility.map((el, i) => (
-              <li key={i}>{el}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+            {test.extraFields && test.extraFields.length > 0 && (
+              <div className="mt-6 rounded-lg shadow-lg p-5 mt-6 bg-indigo-50 border-gray-300 pt-4">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                  Additional Details
+                </h3>
+                <ul className="space-y-2">
+                  {test.extraFields.map((field, idx) => (
+                    <li
+                      key={idx}
+                      className="flex justify-between border-b border-gray-300 pb-2"
+                    >
+                      <span className="font-medium">{field.fieldName}:</span>
+                      <span className="text-gray-700">{field.fieldValue.startsWith("https://res.cloudinary.com") ? <a target="_blank" href={field.fieldValue}><span className="underline text-indigo-600">View Test PDF</span></a> : field.fieldValue}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-      <div className="flex justify-center mt-6">
-        <button
-          onClick={handleApply}
-          className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
-        >
-          Apply
-        </button>
-      </div>
-    </div>
-  )}
-</main>
+            <div
+              className="mt-6 prose prose-blue max-w-none"
+              dangerouslySetInnerHTML={{ __html: test.description }}
+            />
 
+            <div className="flex justify-center gap-4 mt-8">
+              <a
+                href={test.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700"
+              >
+                Apply via Portal
+              </a>
+
+              <button
+                onClick={handleApply}
+                className="bg-indigo-500 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+              >
+                Applied?
+              </button>
+            </div>
+          </div>
+        )}
+      </main>
       <Footer />
     </>
   );

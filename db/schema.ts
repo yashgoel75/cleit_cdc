@@ -1,6 +1,18 @@
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
+const StudentApplicationSchema = new mongoose.Schema({
+    email: { type: String, required: true },
+    responses: [
+        {
+            fieldName: String,
+            value: mongoose.Schema.Types.Mixed,
+        },
+    ],
+    appliedAt: { type: Date, default: Date.now },
+});
+
+
 const job = new Schema({
     company: String,
     role: String,
@@ -11,7 +23,25 @@ const job = new Schema({
     jobDescriptionPdf: String,
     eligibility: [String],
     linkToApply: String,
-    studentsApplied: [String]
+    studentsApplied: [StudentApplicationSchema],
+    extraFields: [{
+        fieldName: {
+            type: String,
+            required: true,
+        },
+        fieldValue: {
+            type: String,
+            required: true,
+        },
+    }],
+    inputFields: [{
+        fieldName: { type: String, required: true },
+        type: { type: String, required: true },
+        placeholder: { type: String },
+        required: { type: Boolean, default: false },
+        options: [{ type: String }],
+    }],
+
 }, { timestamps: true })
 
 const test = new Schema({

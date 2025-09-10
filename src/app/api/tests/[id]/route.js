@@ -5,7 +5,7 @@ import { verifyFirebaseToken } from "@/lib/verifyFirebaseToken";
 
 export async function GET(_req, { params }) {
   await register();
-  const authHeader = req.headers.get("Authorization");
+  const authHeader = _req.headers.get("Authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return NextResponse.json({ error: "Missing token" }, { status: 401 });
   }
