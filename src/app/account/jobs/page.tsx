@@ -312,14 +312,14 @@ export default function StudentJobs() {
                     key={job._id}
                     className="bg-white border-2 border-gray-100 rounded-xl shadow-lg hover:shadow-2xl hover:border-indigo-200 transition flex flex-col h-full overflow-hidden group"
                   >
-                    <div className="bg-indigo-500 p-6 text-white relative overflow-hidden">
+                    <div className="bg-white text-black p-6 text-black relative overflow-hidden">
                       <div className="relative z-10">
-                        <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start justify-between">
                           <div className="flex-1 min-w-0">
-                            <h3 className="text-xl font-bold mb-2 line-clamp-1">
+                            <h3 className="text-xl text-black font-bold mb-2 line-clamp-1">
                               {job.company}
                             </h3>
-                            <p className="text-indigo-100 font-semibold text-lg line-clamp-1">
+                            <p className="font-semibold text-lg line-clamp-1">
                               {job.role}
                             </p>
                           </div>
@@ -340,20 +340,24 @@ export default function StudentJobs() {
                           )}
                         </div>
 
-                        <div className="flex items-center text-indigo-100">
-                          <span className="mr-2">📍</span>
-                          <span className="font-medium">{job.location}</span>
+                        <div className="flex items-center">
                         </div>
                       </div>
                     </div>
 
                     <div className="p-6 flex-1 flex flex-col">
                       <div className="space-y-4 mb-6">
-                        <div className="flex items-center text-gray-600">
-                          <span className="font-semibold min-w-0 flex items-center">
-                            <span className="mr-2">⏰</span>
-                            Deadline:
+                        <div className="flex items-center">
+                          <div className="flex-1">
+                            <div className="flex"><span className="font-semibold text-gray-600 min-w-0 flex items-center">
+                            Job Location:&nbsp;
                           </span>
+                              <span className="font-medium">{job.location}</span></div>
+                          <div className="flex">
+                          <span className="font-semibold min-w-0 flex text-gray-600 items-center">
+                            Deadline:
+                            </span>
+                            
                           <span className="ml-2 text-gray-800 font-bold">
                             {job.deadline
                               ? new Date(job.deadline).toLocaleDateString(
@@ -365,7 +369,10 @@ export default function StudentJobs() {
                                   }
                                 )
                               : "No deadline"}
-                          </span>
+                            </span>
+                            </div>
+                          </div>
+
                         </div>
 
                         {job.extraFields && job.extraFields.length > 0 && (
@@ -383,7 +390,7 @@ export default function StudentJobs() {
                                     {field.fieldName}:
                                   </span>
                                   <span className="text-indigo-600 font-bold text-sm">
-                                    {field.fieldValue}
+                            {field.fieldValue.startsWith("https://res.cloudinary.com") ? <a href={field.fieldValue} target="_blank">View PDF</a> : field.fieldValue}
                                   </span>
                                 </div>
                               ))}
@@ -394,11 +401,10 @@ export default function StudentJobs() {
                         <div className="flex-1">
                           <div className="mb-3">
                             <span className="font-bold text-gray-700 flex items-center">
-                              <span className="mr-2">📋</span>
                               About this role:
                             </span>
                           </div>
-                          <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-xl border border-gray-200 group-hover:from-indigo-50 group-hover:to-purple-50 transition-all duration-300">
+                          <div className="bg-gray-50 p-4 rounded-xl border border-gray-200 group-hover:from-indigo-50 group-hover:to-purple-50 transition-all duration-300">
                             <div
                               className="text-sm text-gray-700 leading-relaxed"
                               dangerouslySetInnerHTML={{
@@ -417,28 +423,27 @@ export default function StudentJobs() {
                         </div>
                       </div>
 
-                      {job.studentsApplied &&
-                        job.studentsApplied.length > 0 && (
-                          <div className="mb-4 text-center">
-                            <div className="bg-gradient-to-r from-orange-100 to-pink-100 text-orange-800 px-4 py-2 rounded-full text-sm font-bold inline-flex items-center">
-                              {job.studentsApplied.length} student
-                              {job.studentsApplied.length !== 1 ? "s" : ""}{" "}
-                              applied
-                            </div>
-                          </div>
-                        )}
-
                       {/* Action Buttons */}
                       <div className="flex mt-auto">
                         <button
                           onClick={() =>
                             router.push(`/account/jobs/${job._id}`)
                           }
-                          className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 px-4 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-105 cursor-pointer"
+                          className="mb-4 flex-1 bg-blue-50 cursor-pointer hover:bg-blue-100 text-blue-700 hover:from-blue-100 hover:to-indigo-100 font-semibold py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center border border-blue-200 hover:border-blue-300 cursor-pointer2"
                         >
-                          Apply Now
+                          More Info
                         </button>
                       </div>
+                      {job.studentsApplied &&
+                        job.studentsApplied.length > 0 && (
+                          <div className="mb-4 text-center">
+                            <div className="bg-orange-100 px-4 py-1 rounded-full text-orange-800 text-xs font-medium inline-flex items-center">
+                              {job.studentsApplied.length} student
+                              {job.studentsApplied.length !== 1 ? "s" : ""}{" "}
+                              applied
+                            </div>
+                          </div>
+                        )}
                     </div>
                   </div>
                 );
