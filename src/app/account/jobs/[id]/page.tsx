@@ -405,7 +405,7 @@ export default function JobDetails() {
                   {job.company}
                 </h1>
 
-                <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center sm:justify-center gap-4 sm:gap-6 rounded-lg py-3 px-4 bg-indigo-50">
+                <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center sm:justify-center gap-4 sm:gap-6 rounded-lg lg:rounded-full py-3 px-4 bg-indigo-50">
                   <div className="flex items-center text-sm sm:text-base">
                     <span className="mr-2 font-medium">Role:</span>
                     <span className="font-semibold">{job.role}</span>
