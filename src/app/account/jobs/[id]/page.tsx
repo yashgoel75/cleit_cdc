@@ -625,7 +625,7 @@ export default function JobDetails() {
                     ) : isStudentApplied || applied ? (
                       <>Application Submitted</>
                     ) : (
-                      <>Apply Now</>
+                      <>Applied on Portal?</>
                     )}
                   </button>
                 </div>
