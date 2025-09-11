@@ -603,7 +603,7 @@ export default function JobDetails() {
                       className={`bg-green-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
                         isStudentApplied
                           ? "cursor-not-allowed opacity-50"
-                          : "hover:bg-green-700"
+                          : "cursor-pointer hover:bg-green-700"
                       }`}
                     >
                       Apply on Company Website
@@ -615,15 +615,14 @@ export default function JobDetails() {
                     className={`bg-indigo-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
                       isStudentApplied
                         ? "cursor-not-allowed opacity-50"
-                        : "hover:bg-indigo-700"
+                        : "cursor-pointer hover:bg-indigo-700"
                     }`}
                   >
                     {applying ? (
                       <>
-                        <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-3"></div>
                         Submitting...
                       </>
-                    ) : isStudentApplied ? (
+                    ) : isStudentApplied || applied ? (
                       <>Application Submitted</>
                     ) : (
                       <>Apply Now</>
