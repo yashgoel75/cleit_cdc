@@ -6,6 +6,7 @@ import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getFirebaseToken } from "@/utils";
+import "./page.css"
 
 export default function JobDetails() {
   interface StudentApplication {
@@ -396,25 +397,28 @@ export default function JobDetails() {
             </div>
           </div>
         ) : (
-          <div className="bg-white border-2 border-gray-100 rounded-2xl shadow-lg p-6 hover:shadow-2xl hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+          <div className="bg-white border-2 border-gray-100 rounded-md lg:rounded-2xl shadow-lg md:p-4 lg:p-6 hover:shadow-xl hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-2 flex flex-col h-full">
             {/* Header Section */}
-            <div className="bg-white rounded-md p-8 relative overflow-hidden">
-              <div className="relative z-10 text-center">
-                <h1 className="text-3xl text-indigo-500 md:text-4xl font-bold mb-4">
+            <div className="bg-white rounded-md p-4 lg:p-6 relative overflow-hidden">
+              <div className="relative z-10 text-left sm:text-center">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl text-indigo-500 font-bold mb-4 break-words">
                   {job.company}
                 </h1>
-                <div className="flex flex-wrap items-center justify-center gap-6 rounded-full py-3 bg-indigo-50">
-                  <div className="flex items-center">
-                    <span className="mr-2">Role:</span>
+
+                <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center sm:justify-center gap-4 sm:gap-6 rounded-lg py-3 px-4 bg-indigo-50">
+                  <div className="flex items-center text-sm sm:text-base">
+                    <span className="mr-2 font-medium">Role:</span>
                     <span className="font-semibold">{job.role}</span>
                   </div>
-                  <div className="flex items-center">
-                    <span className="mr-2">Location:</span>
+
+                  <div className="flex items-center text-sm sm:text-base">
+                    <span className="mr-2 font-medium">Location:</span>
                     <span className="font-semibold">{job.location}</span>
                   </div>
+
                   {job.studentsApplied && job.studentsApplied.length > 0 && (
-                    <div className="flex items-center">
-                      <span className="mr-2">Number of Applications:</span>
+                    <div className="flex items-center text-sm sm:text-base">
+                      <span className="mr-2 font-medium">Applications:</span>
                       <span className="font-semibold">
                         {job.studentsApplied.length} applicants
                       </span>
@@ -424,7 +428,7 @@ export default function JobDetails() {
               </div>
             </div>
 
-            <div className="p-8">
+            <div className="p-4 lg:p-8">
               {/* Key Information Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-center">
@@ -619,9 +623,7 @@ export default function JobDetails() {
                     }`}
                   >
                     {applying ? (
-                      <>
-                        Submitting...
-                      </>
+                      <>Submitting...</>
                     ) : isStudentApplied || applied ? (
                       <>Application Submitted</>
                     ) : (
