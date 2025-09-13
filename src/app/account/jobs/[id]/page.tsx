@@ -6,7 +6,7 @@ import Footer from "@/app/Footer/page";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { getFirebaseToken } from "@/utils";
-import "./page.css"
+import "./page.css";
 
 export default function JobDetails() {
   interface StudentApplication {
@@ -600,32 +600,51 @@ export default function JobDetails() {
               <div className="">
                 <div className="flex flex-col md:flex-row justify-center gap-6">
                   {job.linkToApply && (
-                    <a
-                      href={job.linkToApply}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`bg-green-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                    <button
+                      className={`bg-green-500 text-center text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
                         isStudentApplied
                           ? "cursor-not-allowed opacity-50"
                           : "cursor-pointer hover:bg-green-700"
                       }`}
+                      disabled={
+                        applying ||
+                        applied ||
+                        isStudentApplied ||
+                        getDeadlineStatus(job.deadline)?.status === "expired"
+                      }
                     >
-                      Apply on Company Website
-                    </a>
+                      <a
+                        href={job.linkToApply}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Apply on Company Website
+                      </a>
+                    </button>
                   )}
                   <button
                     onClick={handleApply}
-                    disabled={applying || applied}
+                    disabled={
+                      applying ||
+                      applied ||
+                      isStudentApplied ||
+                      getDeadlineStatus(job.deadline)?.status === "expired"
+                    }
                     className={`bg-indigo-500 text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
                       isStudentApplied
                         ? "cursor-not-allowed opacity-50"
                         : "cursor-pointer hover:bg-indigo-700"
                     }`}
                   >
-                    {applying ? (
-                      <>Submitting...</>
-                    ) : isStudentApplied || applied ? (
-                      <>Application Submitted</>
+                    {isStudentApplied || applied ? (
+                      applying ? (
+                        <>Submitting...</>
+                      ) : (
+                        <>Application Submitted</>
+                      )
+                    ) : getDeadlineStatus(job.deadline)?.status ===
+                      "expired" ? (
+                      <>Expired</>
                     ) : (
                       <>Applied on Portal?</>
                     )}

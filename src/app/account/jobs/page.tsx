@@ -66,8 +66,7 @@ export default function StudentJobs() {
       });
       if (!res.ok) throw new Error("Failed to apply");
 
-      // Update local state to reflect the application
-      const userEmail = currentUser.email; // Extract email to ensure it's not null
+      const userEmail = currentUser.email;
       setJobs((prevJobs) =>
         prevJobs.map((job) =>
           job._id === jobId
