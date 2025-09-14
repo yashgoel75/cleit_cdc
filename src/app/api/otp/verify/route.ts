@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
     }
 
     const storedOtp = await redis.get(`otp:${email}`);
-    console.log("Stored: ", storedOtp);
-    console.log(inputOtp);
 
     if (Number(storedOtp) === Number(inputOtp)) {
       await redis.del(`otp:${email}`);
