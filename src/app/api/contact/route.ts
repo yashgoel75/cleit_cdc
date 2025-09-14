@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
         await resend.emails.send({
             from: 'Cleit <support@cleit.in>',
             to: email,
-            subject: `We've received your message — Cleit CDC Support`,
+            subject: `We've received your message — Cleit Support`,
             html: `
             <div style="background-color: #f4f4f7; padding: 20px; font-family: Arial, sans-serif;">
                 <div style="margin: auto; background-color: white; border-radius: 8px; padding: 20px; max-width: 600px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
                     <h2 style="color: #333; text-align: center;">Hi ${name},</h2>
                     
                     <p style="color: #555; font-size: 16px; line-height: 1.6;">
-                        Thank you for reaching out to <strong>Cleit CDC Support</strong>. 
+                        Thank you for reaching out to <strong>Cleit Support</strong>. 
                         We've received your message and will get back to you shortly.
                     </p>
                     
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
                     </p>
                     
                     <p style="color: #333; font-size: 14px; margin-top: 30px;">
-                        Best regards,<br><strong>Team Cleit CDC</strong>
+                        Best regards,<br><strong>Team Cleit</strong>
                     </p>
                 </div>
             </div>

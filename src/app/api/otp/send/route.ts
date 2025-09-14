@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
         const { data } = await resend.emails.send({
             from: "Cleit <noreply@cleit.in>",
             to: email,
-            subject: "Welcome to Cleit CDC - OTP Verification",
+            subject: "Welcome to Cleit - OTP Verification",
             html: `
             <div style="background-color: #f4f4f7; padding: 20px; font-family: Arial, sans-serif;">
                 <div style="margin: auto; background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
                     <h1 style="color: #333; text-align: center;">Welcome to Cleit!</h1>
                     
                     <p style="color: #555; font-size: 16px; text-align: left; line-height: 1.5;">
-                    Thank you for registering with Cleit CDC. Please use the OTP below to verify your email:
+                    Thank you for registering with Cleit. Please use the OTP below to verify your email:
                     </p>
                     
                     <div style="text-align: center; margin: 30px 0;">
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
                     </p>
                     
                     <p style="color: #333; font-size: 14px; text-align: left; margin-top: 30px;">
-                    Best regards,<br>Team Cleit CDC
+                    Best regards,<br>Team Cleit
                     </p>
                     
                 </div>
