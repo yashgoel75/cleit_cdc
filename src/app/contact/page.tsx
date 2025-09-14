@@ -283,7 +283,7 @@ export default function Contact() {
         </div>
         <div className="flex justify-center gap-4 md:gap-6">
           <a
-            href="https://www.linkedin.com/in/yourprofile"
+            href="https://www.linkedin.com/company/cleit"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-indigo-600 transition transform hover:scale-110"
@@ -296,7 +296,7 @@ export default function Contact() {
               alt="Linkedin Logo"
             ></Image>
           </a>
-          <a
+          {/* <a
             href="https://instagram.com/yourprofile"
             target="_blank"
             rel="noopener noreferrer"
@@ -309,7 +309,7 @@ export default function Contact() {
               width={isMobile ? 30 : 35}
               alt="Instagram Logo"
             ></Image>
-          </a>
+          </a> */}
         </div>
       </div>
       <Footer></Footer>

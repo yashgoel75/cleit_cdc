@@ -10,12 +10,12 @@ import "./page.css";
 
 export default function JobDetails() {
   interface StudentApplication {
-    email: string; // Firebase auth email
+    email: string;
     responses: {
       fieldName: string;
-      value: string | number | File; // depends on input type
+      value: string | number | File;
     }[];
-    appliedAt: string; // ISO date string
+    appliedAt: string;
   }
 
   interface inputField {
@@ -74,7 +74,6 @@ export default function JobDetails() {
         throw new Error(data.error || "Failed to fetch job details.");
       setJob(data.job);
 
-      // Check if current user has already applied
       if (
         data.job.studentsApplied?.some(
           (app: StudentApplication) => app.email === currentUser?.email
@@ -83,7 +82,6 @@ export default function JobDetails() {
         setApplied(true);
       }
 
-      // Initialize form data with empty values
       if (data.job.inputFields) {
         const initialFormData: Record<string, string | number | File> = {};
         data.job.inputFields.forEach((field: inputField) => {
@@ -111,7 +109,6 @@ export default function JobDetails() {
       [fieldName]: value,
     }));
 
-    // Clear error for this field when user starts typing
     if (formErrors[fieldName]) {
       setFormErrors((prev) => ({
         ...prev,
@@ -183,7 +180,6 @@ export default function JobDetails() {
 
       if (!res.ok) throw new Error("Failed to apply.");
 
-      // FIXED: Set the correct state upon successful application.
       setApplied(true);
     } catch (err) {
       console.error(err);
@@ -429,7 +425,6 @@ export default function JobDetails() {
             </div>
 
             <div className="p-4 lg:p-8">
-              {/* Key Information Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 text-center">
                   <div className="text-2xl mb-2">⏰</div>
@@ -481,14 +476,8 @@ export default function JobDetails() {
                   </div>
                 )}
 
-                {/* <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-                  <div className="text-2xl mb-2">💼</div>
-                  <div className="text-sm text-gray-600 mb-1">Job Type</div>
-                  <div className="font-bold text-gray-800">Full-time</div>
-                </div> */}
               </div>
 
-              {/* Extra Fields Section */}
               {job.extraFields && job.extraFields.length > 0 && (
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -522,7 +511,6 @@ export default function JobDetails() {
                 </div>
               )}
 
-              {/* Job Description */}
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                   Job Description
@@ -535,7 +523,6 @@ export default function JobDetails() {
                 </div>
               </div>
 
-              {/* Eligibility Criteria */}
               {job.eligibility && job.eligibility.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -557,7 +544,6 @@ export default function JobDetails() {
                 </div>
               )}
 
-              {/* PDF Link */}
               {job.jobDescriptionPdf && (
                 <div className="mb-8">
                   <div className="bg-orange-50 border border-orange-200 rounded-xl p-6 text-center">
@@ -581,7 +567,6 @@ export default function JobDetails() {
                 </div>
               )}
 
-              {/* Application Form Section */}
               {job.inputFields && job.inputFields.length > 0 && !applied && (
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
@@ -596,7 +581,6 @@ export default function JobDetails() {
                 </div>
               )}
 
-              {/* Application Section */}
               <div className="">
                 <div className="flex flex-col md:flex-row justify-center gap-6">
                   {job.linkToApply && (
@@ -652,7 +636,6 @@ export default function JobDetails() {
                 </div>
               </div>
 
-              {/* Back Button */}
               <div className="mt-8 text-center">
                 <button
                   onClick={() => router.back()}
