@@ -159,21 +159,19 @@ export default function JobDetails() {
       const data = await res.json();
       const normalize = (str: string) => str.replace(/–/g, "-").trim();
 
-      const eligibilityList = job?.eligibility?.map((e: string) => normalize(e));
-      
+      const eligibilityList = job?.eligibility?.map((e: string) =>
+        normalize(e)
+      );
+
       const batchStart = Number(data.user?.batchStart);
       const batchEnd = Number(data.user?.batchEnd);
       const batch =
         batchEnd - batchStart === 3
           ? `${batchStart - 1}-${batchEnd}`
           : `${batchStart}-${batchEnd}`;
-      console.log(job?.eligibility);
-      console.log(batch);
       if (eligibilityList?.includes(batch)) {
-        console.log(true);
         return true;
       } else {
-        console.log(false);
         return false;
       }
     } catch (error) {
@@ -224,6 +222,22 @@ export default function JobDetails() {
       setApplying(false);
     }
   };
+
+  async function handleApplyOnCompany() {
+    if (!currentUser?.email || !id) return;
+    if (!validateForm()) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    const eligible = await checkEligibility();
+    if (!eligible) {
+      alert("You are not eligible for this job application");
+      return;
+    }
+    if (job && job.linkToApply) {
+      window.open(job.linkToApply, "_blank");
+    }
+  }
 
   const renderInputField = (field: inputField) => {
     const value = formData[field.fieldName] || "";
@@ -616,6 +630,7 @@ export default function JobDetails() {
                 <div className="flex flex-col md:flex-row justify-center gap-6">
                   {job.linkToApply && (
                     <button
+                      onClick={handleApplyOnCompany}
                       className={`bg-green-500 text-center text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
                         isStudentApplied
                           ? "cursor-not-allowed opacity-50"
@@ -628,13 +643,7 @@ export default function JobDetails() {
                         getDeadlineStatus(job.deadline)?.status === "expired"
                       }
                     >
-                      <a
-                        href={job.linkToApply}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Apply on Company Website
-                      </a>
+                      Apply on Company Website
                     </button>
                   )}
                   <button
