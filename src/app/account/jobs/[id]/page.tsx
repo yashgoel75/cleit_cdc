@@ -147,14 +147,50 @@ export default function JobDetails() {
     isAlreadyApplied();
   }, [job, currentUser]);
 
+  async function checkEligibility() {
+    if (!currentUser?.email || !id) return;
+    try {
+      const token = await getFirebaseToken();
+      const res = await fetch(`/api/user?email=${currentUser.email}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await res.json();
+      const normalize = (str: string) => str.replace(/–/g, "-").trim();
+
+      const eligibilityList = job?.eligibility?.map((e: string) => normalize(e));
+      
+      const batchStart = Number(data.user?.batchStart);
+      const batchEnd = Number(data.user?.batchEnd);
+      const batch =
+        batchEnd - batchStart === 3
+          ? `${batchStart - 1}-${batchEnd}`
+          : `${batchStart}-${batchEnd}`;
+      console.log(job?.eligibility);
+      console.log(batch);
+      if (eligibilityList?.includes(batch)) {
+        console.log(true);
+        return true;
+      } else {
+        console.log(false);
+        return false;
+      }
+    } catch (error) {
+      console.error("Eligibility check failed:", error);
+    }
+  }
   const handleApply = async () => {
     if (!currentUser?.email || !id) return;
-
     if (!validateForm()) {
       alert("Please fill in all required fields");
       return;
     }
-
+    const eligible = await checkEligibility();
+    if (!eligible) {
+      alert("You are not eligible for this job application");
+      return;
+    }
     setApplying(true);
     try {
       const token = await getFirebaseToken();
@@ -475,7 +511,6 @@ export default function JobDetails() {
                     </div>
                   </div>
                 )}
-
               </div>
 
               {job.extraFields && job.extraFields.length > 0 && (
@@ -526,16 +561,12 @@ export default function JobDetails() {
               {job.eligibility && job.eligibility.length > 0 && (
                 <div className="mb-8">
                   <h3 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                    <span className="bg-indigo-100 p-2 rounded-lg mr-3">
-                      📝
-                    </span>
                     Eligibility Criteria
                   </h3>
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
                     <ul className="space-y-3">
                       {job.eligibility.map((criterion, idx) => (
                         <li key={idx} className="flex items-start">
-                          <span className="text-blue-500 mr-3 mt-1">✓</span>
                           <span className="text-gray-700">{criterion}</span>
                         </li>
                       ))}
