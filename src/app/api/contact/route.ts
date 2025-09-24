@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
 
         await resend.emails.send({
             from: 'Cleit <support@cleit.in>',
-            to: 'yash.goel8370@gmail.com',
+            to: 'urvashis2407@gmail.com',
             subject: `New Contact Form Submission from ${name}`,
             html: `
             <div style="background-color: #f4f4f7; padding: 20px; font-family: Arial, sans-serif;">
