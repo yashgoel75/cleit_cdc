@@ -58,6 +58,17 @@ const test = new Schema({
     studentsApplied: [String]
 }, { timestamps: true })
 
+const webinar = new Schema({
+    title: { type: String, required: true },
+    description: String,
+    date: String,
+    time: String,
+    duration: String,
+    mode: { type: String },
+    link: String,
+    studentsApplied: [String]
+})
+
 const user = new Schema({
     name: String,
     username: String,
@@ -82,6 +93,7 @@ const user = new Schema({
 
 const Job = mongoose.models.Job || mongoose.model("Job", job);
 const Test = mongoose.models.Test || mongoose.model("Test", test);
+const Webinar = mongoose.models.Webinar || mongoose.model("Webinar", webinar);
 const User = mongoose.models.User || mongoose.model("User", user);
 
-export { Job, Test, User };
+export { Job, Test, Webinar, User };

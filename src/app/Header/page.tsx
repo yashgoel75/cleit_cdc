@@ -170,6 +170,12 @@ export default function Header() {
                 >
                   Tests
                 </p>
+                <p
+                  onClick={() => router.replace("/account/webinars")}
+                  className="cursor-pointer hover:underline"
+                >
+                  Webinars
+                </p>
 
                 {isLogoutConfirmationMessage ? (
                   <div className="flex-1">
@@ -299,6 +305,17 @@ export default function Header() {
                 }`}
               >
                 Tests
+              </button>
+            </Link>
+            <Link href={"/account/webinars"}>
+              <button
+                className={`cursor-pointer px-4 py-1 rounded-md transition ${
+                  pathname.endsWith("/webinars")
+                    ? "bg-indigo-600 text-white"
+                    : "text-gray-700 hover:bg-indigo-50"
+                }`}
+              >
+                Webinars
               </button>
             </Link>
           </nav>
