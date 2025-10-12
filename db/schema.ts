@@ -24,6 +24,7 @@ const job = new Schema({
     eligibility: [String],
     linkToApply: String,
     studentsApplied: [StudentApplicationSchema],
+    studentsNotInterested: [String],
     extraFields: [{
         fieldName: {
             type: String,

@@ -37,6 +37,7 @@ export default function JobDetails() {
     eligibility?: string[];
     linkToApply?: string;
     studentsApplied?: StudentApplication[];
+    studentsNotInterested?: string[];
     pdfUrl: string;
     extraFields?: { fieldName: string; fieldValue: string }[];
     inputFields?: {
@@ -210,6 +211,41 @@ export default function JobDetails() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(application),
+      });
+
+      if (!res.ok) throw new Error("Failed to apply.");
+
+      setApplied(true);
+    } catch (err) {
+      console.error(err);
+      alert("There was a problem submitting your application.");
+    } finally {
+      setApplying(false);
+    }
+  };
+
+  const handleNotInterested = async () => {
+    if (!currentUser?.email || !id) return;
+    if (!validateForm()) {
+      alert("Please fill in all required fields");
+      return;
+    }
+    const eligible = await checkEligibility();
+    if (!eligible) {
+      alert("You are not eligible for this job application");
+      return;
+    }
+    setApplying(true);
+    try {
+      const token = await getFirebaseToken();
+
+      const res = await fetch(`/api/jobs/notInterested/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ email: currentUser.email, notInterested: true }),
       });
 
       if (!res.ok) throw new Error("Failed to apply.");
@@ -628,6 +664,24 @@ export default function JobDetails() {
 
               <div className="">
                 <div className="flex flex-col md:flex-row justify-center gap-6">
+                  {job.linkToApply && (
+                    <button
+                      onClick={handleNotInterested}
+                      className={`bg-teal-500 text-center text-white px-5 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed ${
+                        isStudentApplied
+                          ? "cursor-not-allowed opacity-50"
+                          : "cursor-pointer hover:bg-teal-700"
+                      }`}
+                      disabled={
+                        applying ||
+                        applied ||
+                        isStudentApplied ||
+                        getDeadlineStatus(job.deadline)?.status === "expired"
+                      }
+                    >
+                      Not Interested
+                    </button>
+                  )}
                   {job.linkToApply && (
                     <button
                       onClick={handleApplyOnCompany}
